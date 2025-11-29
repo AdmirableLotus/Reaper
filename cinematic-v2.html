@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ReaperCoin — The Currency of the Afterlife</title>
+  <meta name="description" content="ReaperCoin (RPR) - The inevitable cryptocurrency. The Reaper always collects, but hodlers get a pass.">
+  <meta property="og:title" content="ReaperCoin — The Currency of the Afterlife">
+  <meta property="og:description" content="ReaperCoin (RPR) - The inevitable cryptocurrency. The Reaper always collects, but hodlers get a pass.">
+  <meta property="og:image" content="reaper.png">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ReaperCoin — The Currency of the Afterlife">
+  <meta name="twitter:description" content="ReaperCoin (RPR) - The inevitable cryptocurrency. The Reaper always collects, but hodlers get a pass.">
+  <meta name="twitter:image" content="reaper.png">
+  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Orbitron:wght@700;900&display=swap');
+
+    :root {
+      --cosmic-void: #0a0010;
+      --death-bloom: #ff4f6a;
+      --soul-gold: #fdd35c;
+      --spectral-purple: #18001f;
+      --void-glow: rgba(255,0,100,0.15);
+      --amethyst: #2a0036;
+    }
+
+    * { margin:0; padding:0; box-sizing:border-box; }
+    
+    body {
+      font-family:'Cinzel',serif;
+      background:#000;
+      color:#fff;
+      overflow-x:hidden;
+      scroll-behavior:smooth;
+    }
+
+    /* ===== SCENE 1: CROSSING THE VEIL ===== */
+    .scene {
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position:relative;
+      overflow:hidden;
+    }
+
+    #scene1 {
+      background:radial-gradient(circle at center, var(--cosmic-void) 0%, #000 100%);
+    }
+
+    .video-container {
+      position:absolute;
+      inset:0;
+      opacity:0;
+      animation:videoFadeV2 10s ease forwards;
+    }
+
+    .video-container video {
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+
+    .golden-sweep {
+      position:absolute;
+      top:0;
+      left:-100%;
+      width:100%;
+      height:100%;
+      background:linear-gradient(90deg, transparent, var(--soul-gold), transparent);
+      opacity:0.3;
+      animation:goldenSweep 2s ease 8s forwards;
+    }
+
+    .awakening-text {
+      position:absolute;
+      font-size:clamp(24px,4vw,48px);
+      color:var(--soul-gold);
+      font-style:italic;
+      text-align:center;
+      opacity:0;
+      animation:textRevealV2 4s ease forwards 6s;
+    }
+
+    .lotus {
+      position:absolute;
+      bottom:20%;
+      left:50%;
+      transform:translateX(-50%);
+      font-size:4rem;
+      opacity:0;
+      animation:lotusBloomV2 5s ease forwards 9.5s;
+      cursor:pointer;
+      transition:all 0.5s ease;
+    }
+
+    .lotus:hover {
+      transform:translateX(-50%) scale(1.3);
+      filter:drop-shadow(0 0 25px var(--soul-gold));
+    }
+
+    @keyframes videoFadeV2 {
+      0% { opacity:0; }
+      15% { opacity:1; }
+      85% { opacity:1; }
+      100% { opacity:0; background:var(--amethyst); }
+    }
+
+    @keyframes goldenSweep {
+      0% { left:-100%; }
+      100% { left:100%; }
+    }
+
+    @keyframes textRevealV2 {
+      from { opacity:0; transform:translateY(40px); }
+      to { opacity:1; transform:translateY(0); }
+    }
+
+    @keyframes lotusBloomV2 {
+      0% { opacity:0; transform:translateX(-50%) scale(0.3); }
+      40% { opacity:1; transform:translateX(-50%) scale(1.4); }
+      100% { opacity:0.9; transform:translateX(-50%) scale(1); }
+    }
+
+    /* ===== SCENE 2: THE REAPER APPEARS ===== */
+    .hero {
+      background:radial-gradient(circle at 50% 30%, var(--amethyst) 0%, #000 80%);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:flex-start;
+      position:relative;
+      padding:40px 0 20px 0;
+      gap:30px;
+    }
+
+    .mascot-container {
+      display:flex;
+      justify-content:center;
+      position:relative;
+      margin-top:-80px;
+    }
+
+    .mascot {
+      width:min(420px,75vw);
+      height:auto;
+      opacity:0;
+      filter:
+        drop-shadow(0 0 25px rgba(255,0,80,0.8))
+        drop-shadow(0 0 60px rgba(255,0,40,0.4));
+      animation:reaperAppearV2 6s ease forwards;
+      transition:transform 0.3s ease, filter 0.3s ease;
+    }
+
+    .mascot:hover {
+      transform:translateY(-10px) scale(1.03);
+      filter:
+        drop-shadow(0 0 35px rgba(255,0,80,1))
+        drop-shadow(0 0 90px rgba(255,40,0,0.7));
+    }
+
+    .reaper-halo {
+      position:absolute;
+      width:500px;
+      height:500px;
+      border-radius:50%;
+      background:radial-gradient(circle, transparent 60%, var(--soul-gold) 70%, transparent 80%);
+      opacity:0.2;
+      animation:haloBreath 6s ease-in-out infinite;
+    }
+
+
+
+    .tagline {
+      font-family:'Orbitron',sans-serif;
+      font-weight:700;
+      font-size:clamp(20px,3vw,36px);
+      color:var(--death-bloom);
+      text-align:center;
+      margin-top:40px;
+      opacity:0;
+    }
+
+    .tagline .word {
+      opacity:0;
+      display:inline-block;
+      margin:0 8px;
+      animation:wordWhisper 1s ease forwards;
+    }
+
+    @keyframes haloBreath {
+      0%, 100% { transform:scale(1); opacity:0.2; }
+      50% { transform:scale(1.1); opacity:0.4; }
+    }
+
+    @keyframes reaperAppearV2 {
+      0% { opacity:0; transform:scale(0.7) translateY(60px); }
+      50% { opacity:1; transform:scale(1.15) translateY(-10px); }
+      100% { opacity:1; transform:scale(1) translateY(0); }
+    }
+
+    @keyframes wordWhisper {
+      from { opacity:0; transform:translateY(15px); }
+      to { opacity:1; transform:translateY(0); }
+    }
+
+    /* ===== SCENE 3: LORE OF THE RED VEIL ===== */
+    #scene3 {
+      background:radial-gradient(circle at center, var(--spectral-purple) 0%, var(--cosmic-void) 100%);
+      flex-direction:column;
+      text-align:center;
+      padding:20px;
+      position:relative;
+      margin-top:-60px;
+      display:none;
+    }
+
+    .cosmic-beam {
+      position:absolute;
+      top:50%;
+      left:0;
+      width:100%;
+      height:2px;
+      background:linear-gradient(90deg, transparent, var(--soul-gold), transparent);
+      opacity:0;
+      animation:beamPass 3s ease 2s forwards;
+    }
+
+    .lore-text {
+      max-width:800px;
+      font-size:clamp(18px,2.5vw,28px);
+      line-height:1.8;
+      color:var(--soul-gold);
+      opacity:0;
+      font-weight:400;
+    }
+
+    .lore-text .line {
+      opacity:0;
+      animation:scriptReveal 2s ease forwards;
+    }
+
+    .unveil-btn {
+      padding:18px 50px;
+      background:linear-gradient(90deg, #ff4d6d, #ffbd59);
+      color:#000;
+      border:none;
+      border-radius:40px;
+      font-family:'Orbitron',sans-serif;
+      font-weight:700;
+      font-size:20px;
+      cursor:pointer;
+      opacity:0;
+      animation:btnRevealV2 3s ease forwards 6s, btnPulseV2 4s ease-in-out infinite 9s;
+      box-shadow:0 0 40px rgba(255,75,95,0.4);
+      transition:all 0.4s ease;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .unveil-btn:hover {
+      transform:scale(1.08);
+      box-shadow:0 0 60px var(--death-bloom);
+    }
+
+    .unveil-btn::after {
+      content:'';
+      position:absolute;
+      top:50%;
+      left:50%;
+      width:0;
+      height:0;
+      background:radial-gradient(circle, var(--soul-gold), transparent);
+      transition:all 0.8s ease;
+      transform:translate(-50%, -50%);
+      pointer-events:none;
+    }
+
+    .unveil-btn:hover::after {
+      width:150px;
+      height:150px;
+      opacity:0.4;
+    }
+
+    @keyframes beamPass {
+      0% { transform:translateX(-100%); opacity:0; }
+      50% { opacity:0.8; }
+      100% { transform:translateX(100%); opacity:0; }
+    }
+
+    @keyframes scriptReveal {
+      from { opacity:0; transform:translateY(30px); filter:blur(2px); }
+      to { opacity:1; transform:translateY(0); filter:blur(0); }
+    }
+
+    @keyframes btnRevealV2 {
+      from { opacity:0; transform:scale(0.7); }
+      to { opacity:1; transform:scale(1); }
+    }
+
+    @keyframes btnPulseV2 {
+      0%, 80% { box-shadow:0 0 40px rgba(255,0,100,0.6); }
+      90% { box-shadow:0 0 70px var(--soul-gold); }
+      95% { box-shadow:0 0 80px var(--death-bloom); }
+    }
+
+    /* ===== SCENE 4: THE LIVING COIN ===== */
+    #scene4 {
+      background:var(--spectral-purple) url('reaper.png') no-repeat center;
+      background-size:cover;
+      background-blend-mode:overlay;
+      text-align:center;
+      padding:20px;
+      position:relative;
+      margin-top:-100px;
+    }
+
+    .glass-panel {
+      background:rgba(0,0,0,0.7);
+      backdrop-filter:blur(10px);
+      border:1px solid rgba(255,255,255,0.1);
+      border-radius:20px;
+      padding:40px;
+      margin:20px auto;
+      max-width:1100px;
+    }
+
+    .hero h1 {
+      font-family:'Orbitron',sans-serif;
+      font-weight:900;
+      font-size:clamp(38px,6.5vw,90px);
+      color:var(--death-bloom);
+      margin:40px 0 20px;
+      text-shadow:0 0 25px rgba(255,0,100,0.6);
+      animation:titleGlowV2 8s ease-in-out infinite;
+      transition:all 0.4s ease;
+    }
+
+    .hero h1:hover {
+      transform:scale(1.03);
+      text-shadow:0 0 40px var(--death-bloom);
+    }
+
+    .hero h2 {
+      color:var(--soul-gold);
+      font-family:'Cinzel',serif;
+      font-weight:400;
+      font-style:italic;
+      font-size:clamp(16px,2vw,24px);
+      margin-bottom:40px;
+    }
+
+    @keyframes titleGlowV2 {
+      0%, 100% { text-shadow:0 0 25px var(--death-bloom); }
+      25% { text-shadow:0 0 40px var(--soul-gold); }
+      50% { text-shadow:0 0 35px var(--void-glow); }
+      75% { text-shadow:0 0 30px var(--death-bloom); }
+    }
+
+    .stats {
+      display:flex;
+      flex-wrap:wrap;
+      gap:25px;
+      justify-content:center;
+      margin:40px auto;
+    }
+
+    .stat {
+      background:rgba(27,16,32,0.95);
+      border:1px solid rgba(255,255,255,0.15);
+      border-radius:20px;
+      padding:25px 35px;
+      min-width:220px;
+      box-shadow:0 0 25px rgba(255,0,100,0.3);
+      transition:all 0.3s ease;
+    }
+
+    .stat:hover {
+      transform:translateY(-5px);
+      box-shadow:0 0 35px rgba(255,0,100,0.5);
+    }
+
+    .stat h3 {
+      font-family:'Orbitron',sans-serif;
+      font-weight:700;
+      color:#ff3e73;
+      margin:0 0 10px;
+    }
+
+    .neonValue {
+      opacity:0;
+      transition:all 0.8s ease;
+      color:var(--death-bloom);
+      font-weight:600;
+      text-shadow:0 0 15px var(--death-bloom);
+      animation:breathingPulse 3s ease-in-out infinite;
+    }
+
+    .neonValue.active {
+      opacity:1;
+      animation:dataAwaken 1.5s ease forwards, breathingPulse 3s ease-in-out infinite 1.5s;
+    }
+
+    @keyframes dataAwaken {
+      0% { opacity:0; transform:translateY(8px); }
+      50% { opacity:0.7; transform:translateY(-3px); }
+      100% { opacity:1; transform:translateY(0); }
+    }
+
+    @keyframes breathingPulse {
+      0%, 100% { text-shadow:0 0 15px var(--death-bloom); }
+      50% { text-shadow:0 0 25px var(--soul-gold); }
+    }
+
+    .contract {
+      background:rgba(26,26,26,0.95);
+      border-radius:20px;
+      display:inline-block;
+      padding:30px 40px;
+      margin:40px auto;
+      box-shadow:0 0 30px rgba(255,0,100,0.4);
+      position:relative;
+      transition:all 0.3s ease;
+    }
+
+    .contract:hover {
+      box-shadow:0 0 40px var(--soul-gold);
+    }
+
+    .contract:hover::before {
+      content:'';
+      position:absolute;
+      top:0;
+      left:50%;
+      width:1px;
+      height:100%;
+      background:linear-gradient(180deg, transparent, var(--soul-gold), transparent);
+      animation:veilCrack 0.8s ease forwards;
+    }
+
+    @keyframes veilCrack {
+      0% { height:0; opacity:0; }
+      100% { height:100%; opacity:0.8; }
+    }
+
+    /* Golden petals - rare and elegant */
+    .golden-petal {
+      position:fixed;
+      width:8px;
+      height:8px;
+      border-radius:50%;
+      background:radial-gradient(circle,var(--soul-gold),rgba(255,215,92,0.2));
+      pointer-events:none;
+      animation:goldenFloat 15s linear infinite;
+      z-index:3;
+      opacity:0.6;
+    }
+
+    @keyframes goldenFloat {
+      0% { opacity:0; transform:translateY(100vh) scale(0.3); }
+      10% { opacity:0.6; }
+      90% { opacity:0.6; }
+      100% { opacity:0; transform:translateY(-150px) translateX(var(--drift)) scale(1); }
+    }
+
+    /* Footer Realm */
+    .footer-realm {
+      text-align:center;
+      padding:60px 20px;
+      background:linear-gradient(180deg, transparent, var(--cosmic-void));
+    }
+
+    .eternal-wisdom {
+      font-family:'Cinzel',serif;
+      font-style:italic;
+      font-size:clamp(16px,2vw,24px);
+      color:var(--soul-gold);
+      opacity:0.7;
+      animation:wisdomFade 6s ease-in-out infinite;
+    }
+
+    @keyframes wisdomFade {
+      0%, 100% { opacity:0.7; }
+      50% { opacity:1; }
+    }
+
+    /* Navigation Menu */
+    .nav-menu {
+      position:fixed;
+      top:30px;
+      right:30px;
+      z-index:1000;
+      display:flex;
+      gap:15px;
+      opacity:0.8;
+      transition:opacity 0.3s ease;
+    }
+
+    .nav-menu:hover {
+      opacity:1;
+    }
+
+    .nav-btn {
+      background:rgba(0,0,0,0.7);
+      border:1px solid rgba(255,255,255,0.2);
+      color:var(--soul-gold);
+      padding:8px 16px;
+      border-radius:20px;
+      font-family:'Cinzel',serif;
+      font-size:14px;
+      cursor:pointer;
+      transition:all 0.3s ease;
+      backdrop-filter:blur(10px);
+    }
+
+    .nav-btn:hover {
+      background:rgba(255,79,106,0.2);
+      border-color:var(--death-bloom);
+      transform:translateY(-2px);
+    }
+
+    /* Buy Button */
+    .buy-btn {
+      background:linear-gradient(90deg,var(--death-bloom),var(--soul-gold));
+      color:#000;
+      border:none;
+      padding:15px 30px;
+      border-radius:25px;
+      font-family:'Orbitron',sans-serif;
+      font-weight:700;
+      font-size:16px;
+      cursor:not-allowed;
+      opacity:0.6;
+      margin:20px 10px;
+      transition:all 0.3s ease;
+    }
+
+    .buy-btn:hover {
+      opacity:0.8;
+      transform:scale(1.02);
+    }
+
+    /* Styled Buttons */
+    .small-btn {
+      padding:8px 18px;
+      font-size:14px;
+      font-family:'Cinzel',serif;
+      background:linear-gradient(45deg, #d8424a, #df9645);
+      color:#fff;
+      border:none;
+      border-radius:8px;
+      cursor:pointer;
+      transition:0.3s ease;
+      box-shadow:0 0 10px rgba(255,120,60,0.4);
+      margin:5px;
+    }
+
+    .small-btn:hover {
+      transform:scale(1.07);
+      box-shadow:0 0 18px rgba(255,160,100,0.7);
+    }
+
+    /* Universal void space fixes */
+    #scene4,
+    #coin-info,
+    .reaper-info,
+    .reaper-section {
+      margin-top:0 !important;
+      padding-top:20px !important;
+      min-height:auto !important;
+    }
+
+    .hero {
+      min-height:unset !important;
+      height:auto !important;
+    }
+
+    body, main {
+      padding:0 !important;
+      margin:0 !important;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navigation Menu -->
+  <nav class="nav-menu">
+    <button class="nav-btn" onclick="document.getElementById('scene1').scrollIntoView({behavior:'smooth'})">✦ Story</button>
+    <button class="nav-btn" onclick="document.getElementById('scene4').scrollIntoView({behavior:'smooth'})">✦ Coin</button>
+    <button class="nav-btn" onclick="window.open('https://polygonscan.com/address/0x958f0aC9a6a0F3c08e8f4b45b51fd7DAF8Fe1Ce4','_blank')">✦ Contract</button>
+  </nav>
+  <!-- Scene 1: Crossing the Veil -->
+  <section id="scene1" class="scene">
+    <div class="video-container">
+      <video autoplay muted playsinline>
+        <source src="intro.mp4" type="video/mp4" />
+      </video>
+    </div>
+    <div class="golden-sweep"></div>
+    <div class="awakening-text">The veil is thin for those who dare to see.</div>
+    <div class="lotus">🪷</div>
+  </section>
+
+  <!-- Hero Section: Mascot + Button -->
+  <section class="hero">
+    <div class="reaper-halo"></div>
+    <div class="mascot-container">
+      <img src="Mascot.png" alt="ReaperCoin Mascot" class="mascot" />
+    </div>
+    <div class="tagline" id="tagline"></div>
+    <button class="unveil-btn" onclick="unveilCoin()" id="unveilBtn" style="display:none;">Unveil the Coin</button>
+  </section>
+
+  <!-- Scene 3: Lore of the Red Veil -->
+  <section id="scene3" class="scene">
+    <div class="cosmic-beam"></div>
+    <div class="lore-text" id="loreText"></div>
+  </section>
+
+  <!-- Scene 4: The Living Coin -->
+  <section id="scene4" class="scene">
+    <div class="glass-panel">
+      <div class="hero">
+        <h1>ReaperCoin</h1>
+        <h2>"Everybody wants to go to heaven, but no one wants to die."</h2>
+      </div>
+
+      <div class="stats">
+        <div class="stat">
+          <h3>💰 Supply</h3>
+          <div id="totalSupply" class="neonValue">Loading...</div>
+        </div>
+        <div class="stat">
+          <h3>💀 Holders</h3>
+          <div id="holders" class="neonValue">Loading...</div>
+        </div>
+        <div class="stat">
+          <h3>⚡ Network</h3>
+          <div class="neonValue">Polygon Amoy</div>
+        </div>
+      </div>
+
+      <div class="contract">
+        <h3>📜 Contract Address</h3>
+        <p id="contractAddress">0x958f0aC9a6a0F3c08e8f4b45b51fd7DAF8Fe1Ce4</p>
+        <button class="small-btn" onclick="copyAddress()">Copy Address</button>
+        <button class="small-btn" onclick="addToMetaMask()">Add to MetaMask</button>
+        <button class="buy-btn" title="Coming Soon">Buy RPR (Soon)</button>
+        
+        <div style="margin-top:20px;">
+          <p><strong>💰 Your Balance:</strong> <span id="walletBalance" class="neonValue">Loading...</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer Realm -->
+  <section class="footer-realm">
+    <div class="eternal-wisdom">"Death is certain. Value is created."</div>
+  </section>
+
+  <script>
+    // Word-by-word tagline reveal
+    const taglineWords = ["Everybody", "wants", "to", "go", "to", "heaven,", "but", "no", "one", "wants", "to", "die."];
+    const taglineEl = document.getElementById('tagline');
+    
+    setTimeout(() => {
+      taglineWords.forEach((word, i) => {
+        const span = document.createElement('span');
+        span.className = 'word';
+        span.textContent = word;
+        span.style.animationDelay = `${i * 0.4}s`;
+        taglineEl.appendChild(span);
+      });
+    }, 3000);
+
+    // Lore typing animation
+    const loreLines = [
+      "From the ashes of mortal greed, a new currency was born.",
+      "Forged in the afterlife. Blessed by time.",
+      "The Reaper calls it — ReaperCoin."
+    ];
+    
+    const loreEl = document.getElementById('loreText');
+    
+    setTimeout(() => {
+      loreLines.forEach((line, i) => {
+        const div = document.createElement('div');
+        div.className = 'line';
+        div.innerHTML = line.replace('ReaperCoin', '<strong style="color:#ff4f6a">ReaperCoin</strong>');
+        div.style.animationDelay = `${i * 1.5}s`;
+        loreEl.appendChild(div);
+        
+        if (i === 0) div.innerHTML += '<br><br>';
+        if (i === 1) div.innerHTML += '<br><br>';
+      });
+      
+      // Show unveil button after lore completes
+      setTimeout(() => {
+        document.getElementById('unveilBtn').style.display = 'block';
+      }, 4500);
+    }, 1000);
+
+    // Unveil coin function
+    function unveilCoin() {
+      document.getElementById('scene4').scrollIntoView({ behavior: 'smooth' });
+      
+      // Release petals on button click
+      for (let i = 0; i < 6; i++) {
+        setTimeout(() => createGoldenPetal(), i * 200);
+      }
+    }
+
+    // Create golden petals
+    function createGoldenPetal() {
+      const petal = document.createElement('div');
+      petal.className = 'golden-petal';
+      petal.style.left = Math.random() * 100 + 'vw';
+      petal.style.setProperty('--drift', (Math.random() * 200 - 100) + 'px');
+      document.body.appendChild(petal);
+      setTimeout(() => petal.remove(), 15000);
+    }
+
+    // Start golden petals in scene 4
+    let petalInterval;
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > window.innerHeight * 3 && !petalInterval) {
+        petalInterval = setInterval(createGoldenPetal, 4000);
+      }
+    });
+
+    /************************************
+     * ReaperCoin — Live On-Chain Data
+     * Network: Polygon Amoy (80002)
+     * Contract: 0x958f0aC9a6a0F3c08e8f4b45b51fd7DAF8Fe1Ce4
+     ************************************/
+
+    const API_KEY = "QZCC7W4K68XF8B6U2YFRMB5G4QYH581JCD";
+    const CONTRACT = "0x958f0aC9a6a0F3c08e8f4b45b51fd7DAF8Fe1Ce4";
+    const CHAIN = "polygon-amoy";
+
+    function animateValue(el, value) {
+      el.classList.remove("active");
+      el.textContent = value;
+      setTimeout(() => el.classList.add("active"), 80);
+    }
+
+    async function fetchSupply() {
+      const url = `https://api.etherscan.io/v2/api?chain=${CHAIN}&module=stats&action=tokensupply&contractaddress=${CONTRACT}&apikey=${API_KEY}`;
+      const res = await fetch(url);
+      const data = await res.json();
+
+      if (!data.result) return "-";
+
+      const supply = (parseInt(data.result) / 1e18).toLocaleString();
+      animateValue(document.getElementById("totalSupply"), supply + " RPR");
+    }
+
+    async function fetchHolders() {
+      const url = `https://api.etherscan.io/v2/api?chain=${CHAIN}&module=token&action=tokenholderlist&contractaddress=${CONTRACT}&page=1&offset=200&apikey=${API_KEY}`;
+      const res = await fetch(url);
+      const data = await res.json();
+
+      const count = data.result?.length || 0;
+      animateValue(
+        document.getElementById("holders"),
+        count + " Survivor" + (count === 1 ? "" : "s")
+      );
+    }
+
+    async function fetchWalletBalance() {
+      if (!window.ethereum) {
+        animateValue(document.getElementById("walletBalance"), "Install MetaMask");
+        return;
+      }
+
+      const accounts = await window.ethereum.request({
+        method: "eth_requestAccounts",
+      });
+
+      const wallet = accounts[0];
+
+      const url = `https://api.etherscan.io/v2/api?chain=${CHAIN}&module=account&action=tokenbalance&contractaddress=${CONTRACT}&address=${wallet}&tag=latest&apikey=${API_KEY}`;
+
+      const res = await fetch(url);
+      const data = await res.json();
+
+      if (!data.result) return;
+
+      const balance = (parseInt(data.result) / 1e18).toLocaleString();
+      animateValue(document.getElementById("walletBalance"), balance + " RPR");
+    }
+
+    async function loadReaperData() {
+      await fetchSupply();
+      await fetchHolders();
+      await fetchWalletBalance();
+    }
+
+    // Initial load
+    setTimeout(loadReaperData, 1000);
+
+    // Refresh every 30 seconds
+    setInterval(loadReaperData, 30000);
+
+    // Wallet functions
+    function copyAddress() {
+      navigator.clipboard.writeText(CONTRACT);
+      alert('💀 Contract address copied to clipboard!');
+    }
+
+    async function addToMetaMask() {
+      try {
+        await window.ethereum?.request({
+          method: 'wallet_watchAsset',
+          params: { type: 'ERC20', options: { address: CONTRACT, symbol: 'RPR', decimals: 18 } }
+        });
+      } catch (e) { console.error(e); }
+    }
+
+    // Reaper parallax effect
+    window.addEventListener('scroll', () => {
+      const reaper = document.querySelector('.reaper-image');
+      if (reaper) {
+        const scrolled = window.pageYOffset;
+        const rate = scrolled * -0.1;
+        reaper.style.transform = `translateY(${rate}px) rotate(${scrolled * 0.01}deg)`;
+      }
+    });
+  </script>
+</body>
+</html>

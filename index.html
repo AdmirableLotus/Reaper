@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reaper Veil: The Awakening | ReaperCoin</title>
+  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Orbitron:wght@500&display=swap');
+
+    :root {
+      --purple:#18001f;
+      --red:#ff4f6a;
+      --gold:#fdd35c;
+    }
+
+    * { margin:0; padding:0; box-sizing:border-box; }
+    
+    body {
+      font-family:'Cinzel',serif;
+      background:#000;
+      color:#fff;
+      overflow-x:hidden;
+      scroll-behavior:smooth;
+    }
+
+    /* ===== SCENE 1: THE AWAKENING ===== */
+    .scene {
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position:relative;
+      overflow:hidden;
+    }
+
+    #scene1 {
+      background:radial-gradient(circle at center, #0a0010 0%, #000 100%);
+    }
+
+    .video-container {
+      position:absolute;
+      inset:0;
+      opacity:0;
+      animation:videoFade 8s ease forwards;
+    }
+
+    .video-container video {
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+
+    .awakening-text {
+      position:absolute;
+      font-size:clamp(24px,4vw,48px);
+      color:var(--gold);
+      font-style:italic;
+      text-align:center;
+      opacity:0;
+      animation:textReveal 3s ease forwards 6s;
+    }
+
+    .lotus {
+      position:absolute;
+      bottom:20%;
+      left:50%;
+      transform:translateX(-50%);
+      font-size:4rem;
+      opacity:0;
+      animation:lotusBloom 4s ease forwards 9s;
+    }
+
+    @keyframes videoFade {
+      0% { opacity:0; }
+      20% { opacity:1; }
+      80% { opacity:1; }
+      100% { opacity:0.3; }
+    }
+
+    @keyframes textReveal {
+      from { opacity:0; transform:translateY(30px); }
+      to { opacity:1; transform:translateY(0); }
+    }
+
+    @keyframes lotusBloom {
+      0% { opacity:0; transform:translateX(-50%) scale(0.5); }
+      50% { opacity:1; transform:translateX(-50%) scale(1.2); }
+      100% { opacity:0.8; transform:translateX(-50%) scale(1); }
+    }
+
+    /* ===== SCENE 2: THE REAPER APPEARS ===== */
+    #scene2 {
+      background:radial-gradient(circle at 50% 30%, #2a0036 0%, #000 80%);
+      flex-direction:column;
+    }
+
+    .reaper-image {
+      width:min(400px,80vw);
+      opacity:0;
+      filter:drop-shadow(0 0 40px rgba(255,0,100,0.4));
+      animation:reaperAppear 5s ease forwards;
+    }
+
+    .tagline {
+      font-family:'Orbitron',sans-serif;
+      font-size:clamp(20px,3vw,36px);
+      color:var(--red);
+      text-align:center;
+      margin-top:40px;
+      opacity:0;
+      animation:taglineReveal 3s ease forwards 3s;
+    }
+
+    @keyframes reaperAppear {
+      0% { opacity:0; transform:scale(0.8) translateY(50px); }
+      60% { opacity:1; transform:scale(1.1) translateY(0); }
+      100% { opacity:1; transform:scale(1) translateY(0); }
+    }
+
+    @keyframes taglineReveal {
+      from { opacity:0; transform:translateY(20px); }
+      to { opacity:1; transform:translateY(0); }
+    }
+
+    /* ===== SCENE 3: THE LORE ===== */
+    #scene3 {
+      background:radial-gradient(circle at center, var(--purple) 0%, #000 100%);
+      flex-direction:column;
+      text-align:center;
+      padding:0 20px;
+    }
+
+    .lore-text {
+      max-width:800px;
+      font-size:clamp(18px,2.5vw,28px);
+      line-height:1.6;
+      color:var(--gold);
+      opacity:0;
+      animation:loreReveal 4s ease forwards;
+    }
+
+    .unveil-btn {
+      margin-top:60px;
+      padding:20px 40px;
+      background:linear-gradient(90deg,var(--red),var(--gold));
+      color:#000;
+      border:none;
+      border-radius:50px;
+      font-family:'Orbitron',sans-serif;
+      font-size:18px;
+      font-weight:600;
+      cursor:pointer;
+      opacity:0;
+      animation:btnReveal 2s ease forwards 4s, btnPulse 3s ease-in-out infinite 6s;
+      box-shadow:0 0 30px rgba(255,0,100,0.5);
+    }
+
+    @keyframes loreReveal {
+      from { opacity:0; transform:translateY(40px); }
+      to { opacity:1; transform:translateY(0); }
+    }
+
+    @keyframes btnReveal {
+      from { opacity:0; transform:scale(0.8); }
+      to { opacity:1; transform:scale(1); }
+    }
+
+    @keyframes btnPulse {
+      0%, 90% { box-shadow:0 0 30px rgba(255,0,100,0.5); }
+      95% { box-shadow:0 0 50px rgba(255,215,92,0.8); }
+    }
+
+    /* ===== SCENE 4: MAIN DASHBOARD ===== */
+    #scene4 {
+      min-height:100vh;
+      background:var(--purple) url('background.png') no-repeat center;
+      background-size:cover;
+      background-blend-mode:overlay;
+      text-align:center;
+      padding:70px 20px;
+      position:relative;
+    }
+
+    .dashboard {
+      max-width:1100px;
+      margin:0 auto;
+      position:relative;
+      z-index:10;
+    }
+
+    .hero h1 {
+      font-family:'Orbitron',sans-serif;
+      font-size:clamp(38px,6.5vw,90px);
+      color:var(--red);
+      margin:40px 0 20px;
+      text-shadow:0 0 20px rgba(255,0,100,0.5);
+      animation:titleGlow 4s ease-in-out infinite;
+    }
+
+    .hero h2 {
+      color:var(--gold);
+      font-style:italic;
+      font-size:clamp(16px,2vw,24px);
+      margin-bottom:40px;
+    }
+
+    @keyframes titleGlow {
+      0%, 100% { text-shadow:0 0 20px #ff4f6a; }
+      50% { text-shadow:0 0 35px #fdd35c; }
+    }
+
+    .stats {
+      display:flex;
+      flex-wrap:wrap;
+      gap:20px;
+      justify-content:center;
+      margin:40px auto;
+    }
+
+    .stat {
+      background:rgba(27,16,32,0.9);
+      border:1px solid rgba(255,255,255,0.1);
+      border-radius:18px;
+      padding:20px 30px;
+      min-width:200px;
+      box-shadow:0 0 20px rgba(255,0,100,0.2);
+    }
+
+    .stat h3 {
+      font-family:'Orbitron',sans-serif;
+      color:#ff3e73;
+      margin:0 0 8px;
+    }
+
+    .contract {
+      background:rgba(26,26,26,0.9);
+      border-radius:18px;
+      display:inline-block;
+      padding:25px 35px;
+      margin:30px auto;
+      box-shadow:0 0 25px rgba(255,0,100,0.3);
+    }
+
+    .contract h3 { color:var(--gold); margin:0 0 10px; }
+
+    .btn {
+      display:inline-block;
+      background:linear-gradient(90deg,#ff4f6a,#ff0a7a);
+      color:#fff;
+      border:0;
+      border-radius:28px;
+      padding:12px 24px;
+      margin:10px;
+      font-family:'Orbitron',sans-serif;
+      cursor:pointer;
+      transition:0.3s;
+      box-shadow:0 0 16px rgba(255,0,90,0.4);
+    }
+
+    .btn:hover { transform:scale(1.06); }
+
+    /* Floating petals */
+    .petal {
+      position:fixed;
+      width:6px;
+      height:6px;
+      border-radius:50%;
+      background:radial-gradient(circle,rgba(255,182,193,0.8),rgba(255,215,92,0.3));
+      pointer-events:none;
+      animation:petalFloat 12s linear infinite;
+      z-index:5;
+    }
+
+    @keyframes petalFloat {
+      0% { opacity:0; transform:translateY(100vh) scale(0.5); }
+      10% { opacity:1; }
+      90% { opacity:1; }
+      100% { opacity:0; transform:translateY(-100px) translateX(var(--drift)) scale(1.2); }
+    }
+
+    /* Scroll indicator */
+    .scroll-hint {
+      position:absolute;
+      bottom:30px;
+      left:50%;
+      transform:translateX(-50%);
+      color:rgba(255,255,255,0.6);
+      font-size:14px;
+      animation:bounce 2s ease-in-out infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform:translateX(-50%) translateY(0); }
+      50% { transform:translateX(-50%) translateY(-10px); }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Scene 1: The Awakening -->
+  <section id="scene1" class="scene">
+    <div class="video-container">
+      <video autoplay muted playsinline>
+        <source src="intro.mp4" type="video/mp4" />
+      </video>
+    </div>
+    <div class="awakening-text">The veil is thin for those who dare to see.</div>
+    <div class="lotus">🪷</div>
+    <div class="scroll-hint">↓ Scroll to unveil the mystery ↓</div>
+  </section>
+
+  <!-- Scene 2: The Reaper Appears -->
+  <section id="scene2" class="scene">
+    <img src="background.png" alt="The Reaper" class="reaper-image" />
+    <div class="tagline">"Everybody wants to go to heaven, but no one wants to die."</div>
+  </section>
+
+  <!-- Scene 3: The Lore -->
+  <section id="scene3" class="scene">
+    <div class="lore-text">
+      From the ashes of mortal greed, a new currency was born.<br><br>
+      Forged in the afterlife. Blessed by time.<br><br>
+      The Reaper calls it — <strong style="color:#ff4f6a">ReaperCoin</strong>.
+    </div>
+    <button class="unveil-btn" onclick="unveilCoin()">Unveil the Coin</button>
+  </section>
+
+  <!-- Scene 4: Main Dashboard -->
+  <section id="scene4" class="scene">
+    <div class="dashboard">
+      <div class="hero">
+        <h1>ReaperCoin</h1>
+        <h2>"Everybody wants to go to heaven, but no one wants to die."</h2>
+      </div>
+
+      <div class="stats">
+        <div class="stat"><h3>💰 Supply</h3><div id="totalSupply" class="neonValue">Loading...</div></div>
+        <div class="stat"><h3>💀 Holders</h3><div id="holders" class="neonValue">Loading...</div></div>
+        <div class="stat"><h3>🧍 Network</h3><div>Polygon Amoy</div></div>
+      </div>
+
+      <div class="contract">
+        <h3>📜 Live Contract Data</h3>
+        <p><strong>Contract:</strong> <span id="contractAddress">0x7954f13461cc4513cfab15d7d11faafcbb3ddb41</span></p>
+        <button class="btn" id="copyAddress">Copy Address</button>
+        <button class="btn" id="addToMM">Add to MetaMask</button>
+        
+        <div style="margin-top:20px; background:rgba(255,255,255,0.1); padding:20px; border-radius:12px;">
+          <p><strong>⚡ Network:</strong> Polygon Amoy Testnet</p>
+          <p><strong>🔗 Live Data:</strong> <span style="color:#00ff88">Connected</span></p>
+          <p><strong>💰 Your Balance:</strong> <span id="walletBalance" class="neonValue">Loading...</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Unveil the coin - smooth scroll to dashboard
+    function unveilCoin() {
+      document.getElementById('scene4').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Create floating petals
+    function createPetal() {
+      const petal = document.createElement('div');
+      petal.className = 'petal';
+      petal.style.left = Math.random() * 100 + 'vw';
+      petal.style.setProperty('--drift', (Math.random() * 200 - 100) + 'px');
+      document.body.appendChild(petal);
+      setTimeout(() => petal.remove(), 12000);
+    }
+
+    // Start petals after scene 2
+    let petalInterval;
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > window.innerHeight && !petalInterval) {
+        petalInterval = setInterval(createPetal, 2000);
+      }
+    });
+
+    // Live blockchain integration
+    const contractAddress = "0x7954f13461cc4513cfab15d7d11faafcbb3ddb41";
+    const abi = [
+      "function totalSupply() view returns (uint256)",
+      "function balanceOf(address) view returns (uint256)",
+      "function decimals() view returns (uint8)"
+    ];
+
+    async function connectBlockchain() {
+      if (typeof window.ethereum === "undefined") {
+        document.getElementById("userBalance").textContent = "Install MetaMask";
+        return;
+      }
+
+      try {
+        const { ethers } = await import('https://cdn.jsdelivr.net/npm/ethers@6.6.4/dist/ethers.min.js');
+        
+        await ethereum.request({ method: "eth_requestAccounts" });
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        const signer = await provider.getSigner();
+        const userAddress = await signer.getAddress();
+
+        const contract = new ethers.Contract(contractAddress, abi, provider);
+
+        const decimals = await contract.decimals();
+        const totalSupply = (await contract.totalSupply()) / (10 ** decimals);
+        const balance = (await contract.balanceOf(userAddress)) / (10 ** decimals);
+
+        document.getElementById("totalSupply").textContent = `${totalSupply.toLocaleString()} RPR`;
+        document.getElementById("userBalance").textContent = `${balance.toFixed(4)} RPR`;
+      } catch (error) {
+        console.error('Blockchain connection error:', error);
+        document.getElementById("userBalance").textContent = "Connection failed";
+      }
+    }
+
+    document.getElementById("copyAddress").onclick = () => {
+      navigator.clipboard.writeText(contractAddress);
+      alert("💀 ReaperCoin address copied to clipboard!");
+    };
+
+    document.getElementById("addToMM").onclick = async () => {
+      try {
+        await window.ethereum.request({
+          method: "wallet_watchAsset",
+          params: {
+            type: "ERC20",
+            options: {
+              address: contractAddress,
+              symbol: "RPR",
+              decimals: 18,
+              image: "https://via.placeholder.com/64x64/ff4f6a/ffffff?text=RPR"
+            },
+          },
+        });
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    /* -------------------------------
+       ReaperCoin Live Dashboard
+       (Polygon Amoy + Neon Animation)
+    ----------------------------------*/
+    const apiKey = "QZCC7W4K68XF8B6U2YFRMB5G4QYH581JCD";  
+    const contractAddress = "0x7954f13461cc4513cfab15d7d11faafcbb3ddb41";
+    const chain = "polygon-amoy";
+
+    // UI elements
+    const supplyBox = document.querySelector('#totalSupply');
+    const holdersBox = document.querySelector('#holders');
+    const balanceBox = document.querySelector('#walletBalance');
+
+    function updateUI(el, value) {
+      el.classList.remove("active");
+      el.innerText = value;
+      setTimeout(() => el.classList.add("active"), 100);
+    }
+
+    async function connectWallet() {
+      if (window.ethereum) {
+        try {
+          const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+          await getWalletBalance(accounts[0]);
+        } catch (err) {
+          updateUI(balanceBox, "❌ Wallet Rejected");
+        }
+      } else {
+        updateUI(balanceBox, "⚠️ Install MetaMask");
+      }
+    }
+
+    async function getTotalSupply() {
+      try {
+        const res = await fetch(`https://api.etherscan.io/v2/api?chain=${chain}&module=stats&action=tokensupply&contractaddress=${contractAddress}&apikey=${apiKey}`);
+        const data = await res.json();
+        if (data.result) {
+          const supply = parseInt(data.result) / 1e18;
+          updateUI(supplyBox, `${supply.toLocaleString()} RPR`);
+        } else updateUI(supplyBox, "⚠️ Connection Error");
+      } catch {
+        updateUI(supplyBox, "⚠️ Network Error");
+      }
+    }
+
+    async function getHolderCount() {
+      try {
+        const res = await fetch(`https://api.etherscan.io/v2/api?chain=${chain}&module=token&action=tokenholderlist&contractaddress=${contractAddress}&page=1&offset=100&apikey=${apiKey}`);
+        const data = await res.json();
+        const count = data.result ? data.result.length : 1;
+        updateUI(holdersBox, `${count.toLocaleString()} Survivor${count > 1 ? "s" : ""}`);
+      } catch {
+        updateUI(holdersBox, "⚠️ Loading Error");
+      }
+    }
+
+    async function getWalletBalance(wallet) {
+      try {
+        const res = await fetch(`https://api.etherscan.io/v2/api?chain=${chain}&module=account&action=tokenbalance&contractaddress=${contractAddress}&address=${wallet}&tag=latest&apikey=${apiKey}`);
+        const data = await res.json();
+        if (data.result) {
+          const balance = parseInt(data.result) / 1e18;
+          updateUI(balanceBox, `${balance.toLocaleString()} RPR`);
+        } else updateUI(balanceBox, "⚠️ Fetch Error");
+      } catch {
+        updateUI(balanceBox, "⚠️ Error Fetching Balance");
+      }
+    }
+
+    async function initReaperCoinDashboard() {
+      updateUI(supplyBox, "Loading...");
+      updateUI(holdersBox, "Loading...");
+      updateUI(balanceBox, "Loading...");
+      await getTotalSupply();
+      await getHolderCount();
+      await connectWallet();
+    }
+
+    // Load data when dashboard appears
+    setTimeout(() => {
+      initReaperCoinDashboard();
+    }, 1000);
+
+    // Auto-refresh every 30 seconds
+    setInterval(initReaperCoinDashboard, 30000);
+  </script>
+
+  <!-- Floating Reaper Spirit -->
+  <div class="reaper-bg">
+    <img src="smallreaper.png" alt="Reaper" class="reaper-float">
+  </div>
+
+  <!-- Floating Lotus Petals -->
+  <div class="lotus-container"></div>
+
+  <style>
+    .reaper-bg {
+      position: fixed;
+      bottom: 0;
+      right: 10%;
+      width: 280px;
+      height: auto;
+      opacity: 0.25;
+      z-index: -1;
+      animation: floatReaper 8s ease-in-out infinite;
+    }
+
+    .reaper-float {
+      width: 100%;
+      filter: drop-shadow(0 0 10px #ff007f);
+    }
+
+    .reaper-bg::before {
+      content: "";
+      position: absolute;
+      inset: -30px;
+      background: radial-gradient(circle at center, rgba(255,0,120,0.15), transparent 70%);
+      border-radius: 50%;
+      filter: blur(40px);
+      animation: pulseGlow 4s infinite alternate;
+    }
+
+    @keyframes floatReaper {
+      0% { transform: translateY(0) rotate(0deg); opacity:0.2; }
+      50% { transform: translateY(-15px) rotate(1deg); opacity:0.35; }
+      100% { transform: translateY(0) rotate(0deg); opacity:0.25; }
+    }
+
+    @keyframes pulseGlow {
+      0% { opacity: 0.1; transform: scale(1); }
+      100% { opacity: 0.3; transform: scale(1.1); }
+    }
+
+    /* --- Neon Glow Fade Animation --- */
+    @keyframes neonFade {
+      0% {
+        opacity: 0;
+        filter: drop-shadow(0 0 0px #ff0055);
+        transform: scale(0.9);
+      }
+      50% {
+        opacity: 0.7;
+        filter: drop-shadow(0 0 6px #ff0066);
+      }
+      100% {
+        opacity: 1;
+        filter: drop-shadow(0 0 12px #ff0099);
+        transform: scale(1);
+      }
+    }
+
+    .neonValue {
+      opacity: 0;
+      transition: all 0.6s ease-out;
+      color: #ff4081;
+      font-weight: 600;
+      text-shadow: 0 0 12px #ff1f6b, 0 0 24px #ff1f6b;
+    }
+
+    .neonValue.active {
+      animation: neonFade 1.2s ease-out forwards;
+    }
+
+    /* Lotus Petal Drift - Golden Glow Edition */
+    .lotus-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: -2;
+    }
+
+    .lotus-petal {
+      position: absolute;
+      width: 26px;
+      height: 26px;
+      background: radial-gradient(circle, rgba(255,215,0,0.9), rgba(255,192,203,0.4));
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.6));
+      opacity: 0.8;
+      animation: drift 20s linear infinite, goldPulse 3s ease-in-out infinite;
+    }
+
+    @keyframes drift {
+      0% {
+        transform: translateY(0) scale(1) rotate(0deg);
+        opacity: 0.8;
+      }
+      50% {
+        transform: translateY(50vh) scale(1.1) rotate(90deg);
+        opacity: 0.6;
+      }
+      100% {
+        transform: translateY(100vh) scale(0.9) rotate(180deg);
+        opacity: 0;
+      }
+    }
+
+    @keyframes goldPulse {
+      0% { filter: drop-shadow(0 0 6px rgba(255,215,0,0.4)); }
+      50% { filter: drop-shadow(0 0 14px rgba(255,215,0,0.8)); }
+      100% { filter: drop-shadow(0 0 6px rgba(255,215,0,0.4)); }
+    }
+  </style>
+
+  <script>
+    const lotusContainer = document.querySelector('.lotus-container');
+
+    function createLotusPetal() {
+      const petal = document.createElement('div');
+      petal.classList.add('lotus-petal');
+      petal.style.left = Math.random() * 100 + 'vw';
+      petal.style.animationDuration = 14 + Math.random() * 10 + 's';
+      petal.style.opacity = 0.5 + Math.random() * 0.4;
+      lotusContainer.appendChild(petal);
+      
+      setTimeout(() => petal.remove(), 25000);
+    }
+
+    // Start petals after the cinematic intro
+    setTimeout(() => {
+      setInterval(createLotusPetal, 1000);
+    }, 8000);
+  </script>
+</body>
+</html>

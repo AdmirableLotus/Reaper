@@ -1,0 +1,11 @@
+# Large files
+*.exe
+*.vmdk
+*.iso
+*.dmg
+
+# Node modules
+node_modules/
+
+# Cache
+cache/
