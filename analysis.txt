@@ -1,0 +1,209 @@
+=== CSS CLASSES ===
+active
+awakening-text
+buy-btn
+contract
+cosmic-beam
+eternal-wisdom
+footer-realm
+glass-panel
+golden-petal
+golden-sweep
+hero
+line
+lore-text
+lotus
+mascot
+mascot-container
+nav-btn
+nav-menu
+neonValue
+reaper-halo
+reaper-section
+scene
+small-btn
+stat
+stats
+tagline
+unveil-btn
+video-container
+word
+
+=== KEYFRAMES ===
+beamPass
+breathingPulse
+btnPulseV2
+btnRevealV2
+dataAwaken
+goldenFloat
+goldenSweep
+haloBreath
+lotusBloomV2
+reaperAppearV2
+scriptReveal
+textRevealV2
+titleGlowV2
+veilCrack
+videoFadeV2
+wisdomFade
+wordWhisper
+
+=== CSS VARIABLES ===
+amethyst
+cosmic-void
+death-bloom
+drift
+soul-gold
+spectral-purple
+void-glow
+
+=== IMG TAGS ===
+<img src="Mascot.png" alt="ReaperCoin Mascot" class="mascot" />
+
+=== SVG ELEMENTS ===
+
+
+=== BODY HTML ===
+
+  <!-- Navigation Menu -->
+  <nav class="nav-menu">
+    <button class="nav-btn" onclick="document.getElementById('scene1').scrollIntoView({behavior:'smooth'})">✦ Story</button>
+    <button class="nav-btn" onclick="document.getElementById('scene4').scrollIntoView({behavior:'smooth'})">✦ Coin</button>
+    <button class="nav-btn" onclick="window.open('https://polygonscan.com/address/0xa9f6bF8DF6D05bFf95E4FA0f836CD03c1c25A6eF','_blank')">✦ Contract</button>
+  </nav>
+  <!-- Scene 1: Crossing the Veil -->
+  <section id="scene1" class="scene">
+    <div class="video-container">
+      <video autoplay muted playsinline>
+        <source src="intro.mp4" type="video/mp4" />
+      </video>
+    </div>
+    <div class="golden-sweep"></div>
+    <div class="awakening-text">The veil is thin for those who dare to see.</div>
+    <div class="lotus">🪷</div>
+  </section>
+
+  <!-- Hero Section: Mascot + Button -->
+  <section class="hero">
+    <div class="reaper-halo"></div>
+    <div class="mascot-container">
+      <img src="Mascot.png" alt="ReaperCoin Mascot" class="mascot" />
+    </div>
+    <div class="tagline" id="tagline"></div>
+    <button class="unveil-btn" onclick="unveilCoin()" id="unveilBtn" style="display:none;">Unveil the Coin</button>
+  </section>
+
+  <!-- Scene 3: Lore of the Red Veil -->
+  <section id="scene3" class="scene">
+    <div class="cosmic-beam"></div>
+    <div class="lore-text" id="loreText"></div>
+  </section>
+
+  <!-- Scene 4: The Living Coin -->
+  <section id="scene4" class="scene">
+    <div class="glass-panel">
+      <div class="hero">
+        <h1>ReaperCoin</h1>
+        <h2>"Everybody wants to go to heaven, but no one wants to die."</h2>
+      </div>
+
+      <div class="stats">
+        <div class="stat">
+          <h3>💰 Supply</h3>
+          <div id="totalSupply" class="neonValue">Loading...</div>
+        </div>
+        <div class="stat">
+          <h3>💀 Holders</h3>
+          <div id="holders" class="neonValue">Loading...</div>
+        </div>
+        <div class="stat">
+          <h3>⚡ Network</h3>
+          <div class="neonValue">Polygon Amoy</div>
+        </div>
+      </div>
+
+      <div class="contract">
+        <h3>📜 Contract Address</h3>
+        <p id="contractAddress">0xa9f6bF8DF6D05bFf95E4FA0f836CD03c1c25A6eF</p>
+        <button class="small-btn" onclick="copyAddress()">Copy Address</button>
+        <button class="small-btn" onclick="addToMetaMask()">Add to MetaMask</button>
+        <button class="buy-btn" title="Coming Soon">Buy RPR (Soon)</button>
+        
+        <div style="margin-top:20px;">
+          <p><strong>💰 Your Balance:</strong> <span id="walletBalance" class="neonValue">Loading...</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer Realm -->
+  <section class="footer-realm">
+    <div class="eternal-wisdom">"Death is certain. Value is created."</div>
+  </section>
+
+  <script>
+    // Word-by-word tagline reveal
+    const taglineWords = ["Everybody", "wants", "to", "go", "to", "heaven,", "but", "no", "one", "wants", "to", "die."];
+    const taglineEl = document.getElementById('tagline');
+    
+    setTimeout(() => {
+      taglineWords.forEach((word, i) => {
+        const span = document.createElement('span');
+        span.className = 'word';
+        span.textContent = word;
+        span.style.animationDelay = `${i * 0.4}s`;
+        taglineEl.appendChild(span);
+      });
+    }, 3000);
+
+    // Lore typing animation
+    const loreLines = [
+      "From the ashes of mortal greed, a new currency was born.",
+      "Forged in the afterlife. Blessed by time.",
+      "The Reaper calls it — ReaperCoin."
+    ];
+    
+    const loreEl = document.getElementById('loreText');
+    
+    setTimeout(() => {
+      loreLines.forEach((line, i) => {
+        const div = document.createElement('div');
+        div.className = 'line';
+        div.innerHTML = line.replace('ReaperCoin', '<strong style="color:#ff4f6a">ReaperCoin</strong>');
+        div.style.animationDelay = `${i * 1.5}s`;
+        loreEl.appendChild(div);
+        
+        if (i === 0) div.innerHTML += '<br><br>';
+        if (i === 1) div.innerHTML += '<br><br>';
+      });
+      
+      // Show unveil button after lore completes
+      setTimeout(() => {
+        document.getElementById('unveilBtn').style.display = 'block';
+      }, 4500);
+    }, 1000);
+
+    // Unveil coin function
+    function unveilCoin() {
+      document.getElementById('scene4').scrollIntoView({ behavior: 'smooth' });
+      
+      // Release petals on button click
+      for (let i = 0; i < 6; i++) {
+        setTimeout(() => createGoldenPetal(), i * 200);
+      }
+    }
+
+    // Create golden petals
+    function createGoldenPetal() {
+      const petal = document.createElement('div');
+      petal.className = 'golden-petal';
+      petal.style.left = Math.random() * 100 + 'vw';
+      petal.style.setProperty('--drift', (Math.random() * 200 - 100) + 'px');
+      document.body.appendChild(petal);
+      setTimeout(() => petal.remove(), 15000);
+    }
+
+    // Start golden petals i
+
+=== FULL FILE LENGTH ===
+23540

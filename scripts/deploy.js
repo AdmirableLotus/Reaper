@@ -4,8 +4,9 @@ async function main() {
   console.log("🔥 Deploying ReaperCoin...");
   console.log("💀 Everybody wants to go to heaven, but no one wants to die");
   
+  const [deployer] = await ethers.getSigners();
   const ReaperCoin = await ethers.getContractFactory("ReaperCoin");
-  const reaper = await ReaperCoin.deploy();
+  const reaper = await ReaperCoin.deploy(deployer.address);
   
   await reaper.deployed();
   
