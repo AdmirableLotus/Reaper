@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -33,6 +33,8 @@
         .nav-links a:hover { color: var(--text-primary); }
         .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; padding: 6rem 2rem 4rem; }
         .hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(ellipse at 50% 30%, rgba(201,53,46,0.08) 0%, transparent 60%), radial-gradient(ellipse at 80% 80%, rgba(245,166,35,0.05) 0%, transparent 40%); pointer-events: none; }
+                .hero-video-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; opacity: 0.15; pointer-events: none; filter: brightness(0.6) saturate(1.2); }
+        .hero-video-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(ellipse at center, transparent 30%, var(--bg-dark) 75%); z-index: 1; pointer-events: none; }
         .hero-content { text-align: center; max-width: 900px; position: relative; z-index: 2; }
         .coin-image-wrapper { margin-bottom: 2.5rem; position: relative; display: inline-block; }
         .coin-image-wrapper::before { content: ''; position: absolute; top: -10px; left: -10px; right: -10px; bottom: -10px; border-radius: 50%; background: conic-gradient(from 0deg, var(--primary), var(--accent), var(--primary)); opacity: 0.6; animation: rotate 8s linear infinite; filter: blur(15px); }
@@ -99,6 +101,10 @@
         </ul>
     </nav>
     <section class="hero" id="hero">
+        <video class="hero-video-bg" autoplay muted loop playsinline>
+            <source src="intro.mp4" type="video/mp4">
+        </video>
+        <div class="hero-video-overlay"></div>
         <div class="hero-content">
             <div class="coin-image-wrapper animate-in delay-1"><img src="token.png" alt="ReaperCoin" class="coin-img"></div>
             <div class="hero-badge animate-in delay-2">Polygon Network &#8226; Live on Testnet</div>
@@ -124,7 +130,7 @@
         <p class="section-desc" style="margin-bottom: 2rem;">ReaperCoin is not just another token. It is a movement for those who have been through the fire and emerged stronger.</p>
         <div class="video-container">
             <video autoplay muted loop playsinline poster="token.png">
-                <source src="https://cdn.pixabay.com/video/2020/07/30/45477-445039974_large.mp4" type="video/mp4">
+                <source src="intro.mp4" type="video/mp4">
             </video>
         </div>
     </section>
