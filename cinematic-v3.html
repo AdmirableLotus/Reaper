@@ -1,924 +1,238 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ReaperCoin — The Currency of the Afterlife</title>
-  <meta name="description" content="ReaperCoin (RPR) - The inevitable cryptocurrency. The Reaper always collects, but hodlers get a pass.">
-  <meta property="og:title" content="ReaperCoin — The Currency of the Afterlife">
-  <meta property="og:description" content="ReaperCoin (RPR) - The inevitable cryptocurrency. The Reaper always collects, but hodlers get a pass.">
-  <meta property="og:image" content="reaper.png">
-  <meta property="og:type" content="website">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="ReaperCoin — The Currency of the Afterlife">
-  <meta name="twitter:description" content="ReaperCoin (RPR) - The inevitable cryptocurrency. The Reaper always collects, but hodlers get a pass.">
-  <meta name="twitter:image" content="reaper.png">
-  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Orbitron:wght@700;900&display=swap');
-
-    :root {
-      --cosmic-void: #0a0010;
-      --death-bloom: #ff4f6a;
-      --soul-gold: #fdd35c;
-      --spectral-purple: #18001f;
-      --void-glow: rgba(255,0,100,0.15);
-      --amethyst: #2a0036;
-    }
-
-    * { margin:0; padding:0; box-sizing:border-box; }
-    
-    body {
-      font-family:'Cinzel',serif;
-      background:#000;
-      color:#fff;
-      overflow-x:hidden;
-      scroll-behavior:smooth;
-    }
-
-    /* ===== SCENE 1: CROSSING THE VEIL ===== */
-    .scene {
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      position:relative;
-      overflow:hidden;
-    }
-
-    #scene1 {
-      background:radial-gradient(circle at center, var(--cosmic-void) 0%, #000 100%);
-    }
-
-    .video-container {
-      position:absolute;
-      inset:0;
-      opacity:0;
-      animation:videoFadeV2 10s ease forwards;
-    }
-
-    .video-container video {
-      width:100%;
-      height:100%;
-      object-fit:cover;
-    }
-
-    .golden-sweep {
-      position:absolute;
-      top:0;
-      left:-100%;
-      width:100%;
-      height:100%;
-      background:linear-gradient(90deg, transparent, var(--soul-gold), transparent);
-      opacity:0.3;
-      animation:goldenSweep 2s ease 8s forwards;
-    }
-
-    .awakening-text {
-      position:absolute;
-      font-size:clamp(24px,4vw,48px);
-      color:var(--soul-gold);
-      font-style:italic;
-      text-align:center;
-      opacity:0;
-      animation:textRevealV2 4s ease forwards 6s;
-    }
-
-    .lotus {
-      position:absolute;
-      bottom:20%;
-      left:50%;
-      transform:translateX(-50%);
-      font-size:4rem;
-      opacity:0;
-      animation:lotusBloomV2 5s ease forwards 9.5s;
-      cursor:pointer;
-      transition:all 0.5s ease;
-    }
-
-    .lotus:hover {
-      transform:translateX(-50%) scale(1.3);
-      filter:drop-shadow(0 0 25px var(--soul-gold));
-    }
-
-    @keyframes videoFadeV2 {
-      0% { opacity:0; }
-      15% { opacity:1; }
-      85% { opacity:1; }
-      100% { opacity:0; background:var(--amethyst); }
-    }
-
-    @keyframes goldenSweep {
-      0% { left:-100%; }
-      100% { left:100%; }
-    }
-
-    @keyframes textRevealV2 {
-      from { opacity:0; transform:translateY(40px); }
-      to { opacity:1; transform:translateY(0); }
-    }
-
-    @keyframes lotusBloomV2 {
-      0% { opacity:0; transform:translateX(-50%) scale(0.3); }
-      40% { opacity:1; transform:translateX(-50%) scale(1.4); }
-      100% { opacity:0.9; transform:translateX(-50%) scale(1); }
-    }
-
-    /* ===== SCENE 2: THE REAPER APPEARS ===== */
-    .hero {
-      background:radial-gradient(circle at 50% 30%, var(--amethyst) 0%, #000 80%);
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:flex-start;
-      position:relative;
-      padding:40px 0 20px 0;
-      gap:30px;
-    }
-
-    .mascot-container {
-      display:flex;
-      justify-content:center;
-      position:relative;
-      margin-top:-80px;
-    }
-
-    .mascot {
-      width:min(420px,75vw);
-      height:auto;
-      opacity:0;
-      filter:
-        drop-shadow(0 0 25px rgba(255,0,80,0.8))
-        drop-shadow(0 0 60px rgba(255,0,40,0.4));
-      animation:reaperAppearV2 6s ease forwards;
-      transition:transform 0.3s ease, filter 0.3s ease;
-    }
-
-    .mascot:hover {
-      transform:translateY(-10px) scale(1.03);
-      filter:
-        drop-shadow(0 0 35px rgba(255,0,80,1))
-        drop-shadow(0 0 90px rgba(255,40,0,0.7));
-    }
-
-    .reaper-halo {
-      position:absolute;
-      width:500px;
-      height:500px;
-      border-radius:50%;
-      background:radial-gradient(circle, transparent 60%, var(--soul-gold) 70%, transparent 80%);
-      opacity:0.2;
-      animation:haloBreath 6s ease-in-out infinite;
-    }
-
-
-
-    .tagline {
-      font-family:'Orbitron',sans-serif;
-      font-weight:700;
-      font-size:clamp(20px,3vw,36px);
-      color:var(--death-bloom);
-      text-align:center;
-      margin-top:40px;
-      opacity:0;
-    }
-
-    .tagline .word {
-      opacity:0;
-      display:inline-block;
-      margin:0 8px;
-      animation:wordWhisper 1s ease forwards;
-    }
-
-    @keyframes haloBreath {
-      0%, 100% { transform:scale(1); opacity:0.2; }
-      50% { transform:scale(1.1); opacity:0.4; }
-    }
-
-    @keyframes reaperAppearV2 {
-      0% { opacity:0; transform:scale(0.7) translateY(60px); }
-      50% { opacity:1; transform:scale(1.15) translateY(-10px); }
-      100% { opacity:1; transform:scale(1) translateY(0); }
-    }
-
-    @keyframes wordWhisper {
-      from { opacity:0; transform:translateY(15px); }
-      to { opacity:1; transform:translateY(0); }
-    }
-
-    /* ===== SCENE 3: LORE OF THE RED VEIL ===== */
-    #scene3 {
-      background:radial-gradient(circle at center, var(--spectral-purple) 0%, var(--cosmic-void) 100%);
-      flex-direction:column;
-      text-align:center;
-      padding:20px;
-      position:relative;
-      margin-top:-60px;
-      display:none;
-    }
-
-    .cosmic-beam {
-      position:absolute;
-      top:50%;
-      left:0;
-      width:100%;
-      height:2px;
-      background:linear-gradient(90deg, transparent, var(--soul-gold), transparent);
-      opacity:0;
-      animation:beamPass 3s ease 2s forwards;
-    }
-
-    .lore-text {
-      max-width:800px;
-      font-size:clamp(18px,2.5vw,28px);
-      line-height:1.8;
-      color:var(--soul-gold);
-      opacity:0;
-      font-weight:400;
-    }
-
-    .lore-text .line {
-      opacity:0;
-      animation:scriptReveal 2s ease forwards;
-    }
-
-    .unveil-btn {
-      padding:18px 50px;
-      background:linear-gradient(90deg, #ff4d6d, #ffbd59);
-      color:#000;
-      border:none;
-      border-radius:40px;
-      font-family:'Orbitron',sans-serif;
-      font-weight:700;
-      font-size:20px;
-      cursor:pointer;
-      opacity:0;
-      animation:btnRevealV2 3s ease forwards 6s, btnPulseV2 4s ease-in-out infinite 9s;
-      box-shadow:0 0 40px rgba(255,75,95,0.4);
-      transition:all 0.4s ease;
-      position:relative;
-      overflow:hidden;
-    }
-
-    .unveil-btn:hover {
-      transform:scale(1.08);
-      box-shadow:0 0 60px var(--death-bloom);
-    }
-
-    .unveil-btn::after {
-      content:'';
-      position:absolute;
-      top:50%;
-      left:50%;
-      width:0;
-      height:0;
-      background:radial-gradient(circle, var(--soul-gold), transparent);
-      transition:all 0.8s ease;
-      transform:translate(-50%, -50%);
-      pointer-events:none;
-    }
-
-    .unveil-btn:hover::after {
-      width:150px;
-      height:150px;
-      opacity:0.4;
-    }
-
-    @keyframes beamPass {
-      0% { transform:translateX(-100%); opacity:0; }
-      50% { opacity:0.8; }
-      100% { transform:translateX(100%); opacity:0; }
-    }
-
-    @keyframes scriptReveal {
-      from { opacity:0; transform:translateY(30px); filter:blur(2px); }
-      to { opacity:1; transform:translateY(0); filter:blur(0); }
-    }
-
-    @keyframes btnRevealV2 {
-      from { opacity:0; transform:scale(0.7); }
-      to { opacity:1; transform:scale(1); }
-    }
-
-    @keyframes btnPulseV2 {
-      0%, 80% { box-shadow:0 0 40px rgba(255,0,100,0.6); }
-      90% { box-shadow:0 0 70px var(--soul-gold); }
-      95% { box-shadow:0 0 80px var(--death-bloom); }
-    }
-
-    /* ===== SCENE 4: THE LIVING COIN ===== */
-    #scene4 {
-      background:var(--spectral-purple) url('reaper.png') no-repeat center;
-      background-size:cover;
-      background-blend-mode:overlay;
-      text-align:center;
-      padding:20px;
-      position:relative;
-      margin-top:-100px;
-    }
-
-    .glass-panel {
-      background:rgba(0,0,0,0.7);
-      backdrop-filter:blur(10px);
-      border:1px solid rgba(255,255,255,0.1);
-      border-radius:20px;
-      padding:40px;
-      margin:20px auto;
-      max-width:1100px;
-    }
-
-    .hero h1 {
-      font-family:'Orbitron',sans-serif;
-      font-weight:900;
-      font-size:clamp(38px,6.5vw,90px);
-      color:var(--death-bloom);
-      margin:40px 0 20px;
-      text-shadow:0 0 25px rgba(255,0,100,0.6);
-      animation:titleGlowV2 8s ease-in-out infinite;
-      transition:all 0.4s ease;
-    }
-
-    .hero h1:hover {
-      transform:scale(1.03);
-      text-shadow:0 0 40px var(--death-bloom);
-    }
-
-    .hero h2 {
-      color:var(--soul-gold);
-      font-family:'Cinzel',serif;
-      font-weight:400;
-      font-style:italic;
-      font-size:clamp(16px,2vw,24px);
-      margin-bottom:40px;
-    }
-
-    @keyframes titleGlowV2 {
-      0%, 100% { text-shadow:0 0 25px var(--death-bloom); }
-      25% { text-shadow:0 0 40px var(--soul-gold); }
-      50% { text-shadow:0 0 35px var(--void-glow); }
-      75% { text-shadow:0 0 30px var(--death-bloom); }
-    }
-
-    .stats {
-      display:flex;
-      flex-wrap:wrap;
-      gap:25px;
-      justify-content:center;
-      margin:40px auto;
-    }
-
-    .stat {
-      background:rgba(27,16,32,0.95);
-      border:1px solid rgba(255,255,255,0.15);
-      border-radius:20px;
-      padding:25px 35px;
-      min-width:220px;
-      box-shadow:0 0 25px rgba(255,0,100,0.3);
-      transition:all 0.3s ease;
-    }
-
-    .stat:hover {
-      transform:translateY(-5px);
-      box-shadow:0 0 35px rgba(255,0,100,0.5);
-    }
-
-    .stat h3 {
-      font-family:'Orbitron',sans-serif;
-      font-weight:700;
-      color:#ff3e73;
-      margin:0 0 10px;
-    }
-
-    .neonValue {
-      opacity:0;
-      transition:all 0.8s ease;
-      color:var(--death-bloom);
-      font-weight:600;
-      text-shadow:0 0 15px var(--death-bloom);
-      animation:breathingPulse 3s ease-in-out infinite;
-    }
-
-    .neonValue.active {
-      opacity:1;
-      animation:dataAwaken 1.5s ease forwards, breathingPulse 3s ease-in-out infinite 1.5s;
-    }
-
-    @keyframes dataAwaken {
-      0% { opacity:0; transform:translateY(8px); }
-      50% { opacity:0.7; transform:translateY(-3px); }
-      100% { opacity:1; transform:translateY(0); }
-    }
-
-    @keyframes breathingPulse {
-      0%, 100% { text-shadow:0 0 15px var(--death-bloom); }
-      50% { text-shadow:0 0 25px var(--soul-gold); }
-    }
-
-    .contract {
-      background:rgba(26,26,26,0.95);
-      border-radius:20px;
-      display:inline-block;
-      padding:30px 40px;
-      margin:40px auto;
-      box-shadow:0 0 30px rgba(255,0,100,0.4);
-      position:relative;
-      transition:all 0.3s ease;
-    }
-
-    .contract:hover {
-      box-shadow:0 0 40px var(--soul-gold);
-    }
-
-    .contract:hover::before {
-      content:'';
-      position:absolute;
-      top:0;
-      left:50%;
-      width:1px;
-      height:100%;
-      background:linear-gradient(180deg, transparent, var(--soul-gold), transparent);
-      animation:veilCrack 0.8s ease forwards;
-    }
-
-    @keyframes veilCrack {
-      0% { height:0; opacity:0; }
-      100% { height:100%; opacity:0.8; }
-    }
-
-    /* Golden petals - rare and elegant */
-    .golden-petal {
-      position:fixed;
-      width:8px;
-      height:8px;
-      border-radius:50%;
-      background:radial-gradient(circle,var(--soul-gold),rgba(255,215,92,0.2));
-      pointer-events:none;
-      animation:goldenFloat 15s linear infinite;
-      z-index:3;
-      opacity:0.6;
-    }
-
-    @keyframes goldenFloat {
-      0% { opacity:0; transform:translateY(100vh) scale(0.3); }
-      10% { opacity:0.6; }
-      90% { opacity:0.6; }
-      100% { opacity:0; transform:translateY(-150px) translateX(var(--drift)) scale(1); }
-    }
-
-    /* Footer Realm */
-    .footer-realm {
-      text-align:center;
-      padding:60px 20px;
-      background:linear-gradient(180deg, transparent, var(--cosmic-void));
-    }
-
-    .eternal-wisdom {
-      font-family:'Cinzel',serif;
-      font-style:italic;
-      font-size:clamp(16px,2vw,24px);
-      color:var(--soul-gold);
-      opacity:0.7;
-      animation:wisdomFade 6s ease-in-out infinite;
-    }
-
-    @keyframes wisdomFade {
-      0%, 100% { opacity:0.7; }
-      50% { opacity:1; }
-    }
-
-    /* Navigation Menu */
-    .nav-menu {
-      position:fixed;
-      top:30px;
-      right:30px;
-      z-index:1000;
-      display:flex;
-      gap:15px;
-      opacity:0.8;
-      transition:opacity 0.3s ease;
-    }
-
-    .nav-menu:hover {
-      opacity:1;
-    }
-
-    .nav-btn {
-      background:rgba(0,0,0,0.7);
-      border:1px solid rgba(255,255,255,0.2);
-      color:var(--soul-gold);
-      padding:8px 16px;
-      border-radius:20px;
-      font-family:'Cinzel',serif;
-      font-size:14px;
-      cursor:pointer;
-      transition:all 0.3s ease;
-      backdrop-filter:blur(10px);
-    }
-
-    .nav-btn:hover {
-      background:rgba(255,79,106,0.2);
-      border-color:var(--death-bloom);
-      transform:translateY(-2px);
-    }
-
-    /* Buy Button */
-    .buy-btn {
-      background:linear-gradient(90deg,var(--death-bloom),var(--soul-gold));
-      color:#000;
-      border:none;
-      padding:15px 30px;
-      border-radius:25px;
-      font-family:'Orbitron',sans-serif;
-      font-weight:700;
-      font-size:16px;
-      cursor:not-allowed;
-      opacity:0.6;
-      margin:20px 10px;
-      transition:all 0.3s ease;
-    }
-
-    .buy-btn:hover {
-      opacity:0.8;
-      transform:scale(1.02);
-    }
-
-    /* Styled Buttons */
-    .small-btn {
-      padding:8px 18px;
-      font-size:14px;
-      font-family:'Cinzel',serif;
-      background:linear-gradient(45deg, #d8424a, #df9645);
-      color:#fff;
-      border:none;
-      border-radius:8px;
-      cursor:pointer;
-      transition:0.3s ease;
-      box-shadow:0 0 10px rgba(255,120,60,0.4);
-      margin:5px;
-    }
-
-    .small-btn:hover {
-      transform:scale(1.07);
-      box-shadow:0 0 18px rgba(255,160,100,0.7);
-    }
-
-    /* Universal void space fixes */
-    #scene4,
-    #coin-info,
-    .reaper-info,
-    .reaper-section {
-      margin-top:0 !important;
-      padding-top:20px !important;
-      min-height:auto !important;
-    }
-
-    .hero {
-      min-height:unset !important;
-      height:auto !important;
-    }
-
-    body, main {
-      padding:0 !important;
-      margin:0 !important;
-    }
-  </style>
-<style>
-#scroll-progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,#ff4f6a,#fdd35c,#ff6b35);z-index:9999;width:0%}
-#loader{position:fixed;top:0;left:0;width:100%;height:100%;background:#0a0010;display:flex;align-items:center;justify-content:center;flex-direction:column;z-index:10000;transition:opacity 1.2s}
-#loader.hidden{opacity:0;pointer-events:none}
-#loader .skull{font-size:5rem;animation:pulse 1.5s infinite}
-#loader p{font-family:Orbitron,sans-serif;color:#ff4f6a;margin-top:20px;letter-spacing:4px;font-size:0.85rem}
-</style>
-<style>.floating-reaper{position:fixed;pointer-events:none;z-index:0;opacity:0.12;animation:floatR 20s linear infinite}
-.floating-flower{position:fixed;pointer-events:none;z-index:0;opacity:0.25;animation:floatF 15s linear infinite}
-@keyframes floatR{0%{transform:translateY(100vh) rotate(0)}100%{transform:translateY(-100px) rotate(360deg)}}
-@keyframes floatF{0%{transform:translateY(100vh) scale(0.5)}50%{opacity:0.5}100%{transform:translateY(-100px) scale(1.2);opacity:0}}
-@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.15);opacity:0.6}}
-</style>
-<style>.video-showcase{width:100%;min-height:80vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 20px;background:linear-gradient(180deg,#0a0010,#18001f,#0a0010)}
-.video-showcase video{max-width:800px;width:90%;border-radius:16px;box-shadow:0 0 60px rgba(255,79,106,0.3);border:1px solid rgba(255,79,106,0.2)}
-.video-showcase h2{font-family:Cinzel,serif;color:#fdd35c;font-size:clamp(1.5rem,4vw,2.5rem);margin-bottom:30px;text-shadow:0 0 20px rgba(253,211,92,0.3)}
-.gallery-section{padding:100px 20px;background:linear-gradient(180deg,#0a0010,#2a0036,#0a0010)}
-.gallery-section h2{font-family:Cinzel,serif;color:#fdd35c;font-size:clamp(1.5rem,4vw,2.5rem);text-align:center;margin-bottom:60px}
-.gallery-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:30px;max-width:1200px;margin:0 auto}
-.gallery-item{position:relative;border-radius:16px;overflow:hidden;aspect-ratio:1;cursor:pointer;transition:transform 0.5s,box-shadow 0.5s;border:1px solid rgba(255,79,106,0.1)}
-.gallery-item:hover{transform:scale(1.05) translateY(-10px);box-shadow:0 0 50px rgba(255,79,106,0.4)}
-.gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform 0.5s}
-.gallery-item:hover img{transform:scale(1.15)}
-.gallery-item .overlay{position:absolute;bottom:0;left:0;right:0;padding:20px;background:linear-gradient(transparent,rgba(10,0,16,0.95));opacity:0;transition:opacity 0.3s}
-.gallery-item:hover .overlay{opacity:1}
-.gallery-item .overlay p{color:#fdd35c;font-family:Orbitron,sans-serif;font-size:0.8rem;letter-spacing:2px}
-</style>
-<style>.features-section{padding:100px 20px;background:linear-gradient(180deg,#18001f,#0a0010)}
-.features-section h2{font-family:Cinzel,serif;color:#fdd35c;font-size:clamp(1.5rem,4vw,2.5rem);text-align:center;margin-bottom:60px}
-.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:30px;max-width:1100px;margin:0 auto}
-.feature-card{background:rgba(26,0,36,0.8);border:1px solid rgba(255,79,106,0.12);border-radius:16px;padding:40px 30px;text-align:center;transition:transform 0.4s,box-shadow 0.4s}
-.feature-card:hover{transform:translateY(-10px);box-shadow:0 0 50px rgba(255,79,106,0.25)}
-.feature-card .icon{font-size:3rem;margin-bottom:20px;display:block}
-.feature-card h3{font-family:Cinzel,serif;color:#ff4f6a;font-size:1.2rem;margin-bottom:15px}
-.feature-card p{color:rgba(224,214,204,0.7);line-height:1.8;font-size:0.95rem;font-family:sans-serif}
-.v3-scene{opacity:0;transform:translateY(50px);transition:opacity 1s,transform 1s}
-.v3-scene.visible{opacity:1;transform:translateY(0)}
-.footer-v3{padding:60px 20px;text-align:center;background:#050008;border-top:1px solid rgba(255,79,106,0.1)}
-.footer-v3 p{color:rgba(224,214,204,0.5);font-family:Orbitron,sans-serif;font-size:0.75rem;letter-spacing:2px}
-.footer-v3 .links a{color:#ff4f6a;text-decoration:none;margin:0 15px;font-family:Orbitron,sans-serif;font-size:0.85rem;transition:color 0.3s}
-.footer-v3 .links a:hover{color:#fdd35c}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReaperCoin - Every Scar Becomes Armor</title>
+    <meta name="description" content="ReaperCoin: A living ecosystem built on transformation through hardship. Connected to Lotus AI.">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Orbitron:wght@400;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --void: #0a0a0f;
+            --deep: #0d0d14;
+            --surface: #14141f;
+            --gold: #fdd35c;
+            --ember: #ff4f6a;
+            --lotus: #a78bfa;
+            --text: #e2dcd0;
+            --muted: rgba(226, 220, 208, 0.5);
+            --glass: rgba(20, 20, 31, 0.7);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; scrollbar-width: thin; scrollbar-color: var(--gold) var(--void); }
+        body { font-family: 'Inter', sans-serif; background: var(--void); color: var(--text); overflow-x: hidden; line-height: 1.7; }
+        #scroll-progress { position: fixed; top: 0; left: 0; height: 2px; background: linear-gradient(90deg, var(--ember), var(--gold), var(--lotus)); z-index: 9999; transition: width 0.1s linear; }
+        #loader { position: fixed; inset: 0; background: var(--void); display: flex; align-items: center; justify-content: center; z-index: 10000; transition: opacity 0.8s ease, visibility 0.8s ease; }
+        #loader.hidden { opacity: 0; visibility: hidden; }
+        .loader-symbol { font-family: 'Cinzel', serif; font-size: 2rem; color: var(--gold); animation: pulse 1.5s ease-in-out infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 0.3; transform: scale(0.95); } 50% { opacity: 1; transform: scale(1); } }
+        nav { position: fixed; top: 0; width: 100%; padding: 1.2rem 3rem; display: flex; justify-content: space-between; align-items: center; z-index: 1000; backdrop-filter: blur(20px); background: rgba(10, 10, 15, 0.8); border-bottom: 1px solid rgba(253, 211, 92, 0.08); }
+        .nav-brand { font-family: 'Cinzel', serif; font-size: 1.1rem; font-weight: 700; color: var(--gold); letter-spacing: 3px; text-transform: uppercase; }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.8rem; font-family: 'Orbitron', sans-serif; letter-spacing: 1px; transition: color 0.3s; }
+        .nav-links a:hover { color: var(--gold); }
+        section { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 8rem 2rem; position: relative; }
+        .hero { text-align: center; flex-direction: column; background: radial-gradient(ellipse at center bottom, rgba(253, 211, 92, 0.03) 0%, transparent 60%); }
+        .hero-badge { font-family: 'Orbitron', sans-serif; font-size: 0.65rem; letter-spacing: 4px; color: var(--muted); text-transform: uppercase; margin-bottom: 2rem; opacity: 0; animation: fadeUp 1s ease 0.5s forwards; }
+        .hero h1 { font-family: 'Cinzel', serif; font-size: clamp(2.5rem, 7vw, 5rem); font-weight: 900; color: var(--gold); margin-bottom: 1.5rem; line-height: 1.1; opacity: 0; animation: fadeUp 1s ease 0.8s forwards; }
+        .hero-tagline { font-size: clamp(1rem, 2.5vw, 1.4rem); color: var(--text); font-weight: 300; max-width: 600px; margin: 0 auto 1rem; opacity: 0; animation: fadeUp 1s ease 1.1s forwards; }
+        .hero-sub { font-size: 0.85rem; color: var(--muted); max-width: 500px; margin: 0 auto 3rem; opacity: 0; animation: fadeUp 1s ease 1.4s forwards; }
+        .hero-cta { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; opacity: 0; animation: fadeUp 1s ease 1.7s forwards; }
+        .btn { padding: 0.9rem 2.2rem; border-radius: 6px; font-family: 'Orbitron', sans-serif; font-size: 0.72rem; letter-spacing: 2px; text-transform: uppercase; text-decoration: none; transition: all 0.3s ease; cursor: pointer; }
+        .btn-primary { background: var(--gold); color: var(--void); border: none; }
+        .btn-primary:hover { box-shadow: 0 0 30px rgba(253, 211, 92, 0.3); transform: translateY(-2px); }
+        .btn-outline { border: 1px solid rgba(253, 211, 92, 0.3); color: var(--gold); background: transparent; }
+        .btn-outline:hover { border-color: var(--gold); background: rgba(253, 211, 92, 0.05); }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .philosophy { flex-direction: column; text-align: center; background: linear-gradient(180deg, var(--void) 0%, var(--deep) 100%); }
+        .section-label { font-family: 'Orbitron', sans-serif; font-size: 0.6rem; letter-spacing: 5px; color: var(--ember); text-transform: uppercase; margin-bottom: 1.5rem; }
+        .philosophy h2 { font-family: 'Cinzel', serif; font-size: clamp(1.8rem, 4vw, 3rem); color: var(--gold); margin-bottom: 2rem; max-width: 700px; }
+        .philosophy p { max-width: 600px; color: var(--muted); font-size: 1rem; line-height: 1.9; }
+        .pillars { flex-direction: column; padding: 6rem 2rem; }
+        .pillars h2 { font-family: 'Cinzel', serif; font-size: clamp(1.5rem, 3vw, 2.2rem); color: var(--text); text-align: center; margin-bottom: 4rem; }
+        .pillars-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; max-width: 1000px; width: 100%; }
+        .pillar-card { background: var(--glass); border: 1px solid rgba(253, 211, 92, 0.06); border-radius: 12px; padding: 2.5rem 2rem; text-align: center; transition: transform 0.3s ease, border-color 0.3s ease; }
+        .pillar-card:hover { transform: translateY(-4px); border-color: rgba(253, 211, 92, 0.15); }
+        .pillar-icon { font-size: 1.8rem; margin-bottom: 1rem; }
+        .pillar-card h3 { font-family: 'Cinzel', serif; font-size: 1rem; color: var(--gold); margin-bottom: 0.8rem; }
+        .pillar-card p { font-size: 0.85rem; color: var(--muted); line-height: 1.7; }
+        .lore { flex-direction: column; text-align: center; background: radial-gradient(ellipse at center, rgba(255, 79, 106, 0.02) 0%, transparent 60%); }
+        .lore h2 { font-family: 'Cinzel', serif; font-size: clamp(1.5rem, 3.5vw, 2.5rem); color: var(--ember); margin-bottom: 2.5rem; }
+        .lore-text { max-width: 650px; font-size: 1rem; color: var(--text); line-height: 2; font-weight: 300; }
+        .lore-text em { color: var(--gold); font-style: normal; font-weight: 400; }
+        .ecosystem { flex-direction: column; padding: 6rem 2rem; }
+        .ecosystem h2 { font-family: 'Cinzel', serif; font-size: clamp(1.5rem, 3vw, 2.2rem); color: var(--text); text-align: center; margin-bottom: 1rem; }
+        .ecosystem-subtitle { text-align: center; color: var(--muted); font-size: 0.9rem; margin-bottom: 3.5rem; max-width: 500px; }
+        .eco-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; max-width: 900px; width: 100%; }
+        .eco-card { background: var(--glass); border: 1px solid rgba(167, 139, 250, 0.08); border-radius: 12px; padding: 2rem 1.5rem; text-align: center; transition: all 0.3s ease; }
+        .eco-card:hover { border-color: rgba(167, 139, 250, 0.2); transform: translateY(-3px); }
+        .eco-card .eco-icon { font-size: 1.5rem; margin-bottom: 0.8rem; }
+        .eco-card h4 { font-family: 'Orbitron', sans-serif; font-size: 0.7rem; letter-spacing: 1px; color: var(--lotus); margin-bottom: 0.5rem; }
+        .eco-card p { font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+        .stats-section { flex-direction: column; padding: 5rem 2rem; min-height: auto; }
+        .stats-section h2 { font-family: 'Cinzel', serif; font-size: clamp(1.3rem, 2.5vw, 1.8rem); color: var(--text); text-align: center; margin-bottom: 3rem; }
+        .stats-row { display: flex; gap: 3rem; flex-wrap: wrap; justify-content: center; margin-bottom: 2rem; }
+        .stat-item { text-align: center; }
+        .stat-item h3 { font-family: 'Orbitron', sans-serif; font-size: 0.6rem; letter-spacing: 2px; color: var(--muted); margin-bottom: 0.5rem; text-transform: uppercase; }
+        .stat-value { font-family: 'Orbitron', sans-serif; font-size: 1.3rem; color: var(--gold); font-weight: 700; }
+        .contract-display { text-align: center; margin-top: 2rem; }
+        .contract-display label { font-size: 0.65rem; font-family: 'Orbitron', sans-serif; letter-spacing: 2px; color: var(--muted); display: block; margin-bottom: 0.5rem; }
+        .contract-display code { font-size: 0.75rem; color: var(--gold); background: rgba(253, 211, 92, 0.05); padding: 0.5rem 1.2rem; border-radius: 6px; border: 1px solid rgba(253, 211, 92, 0.1); word-break: break-all; }
+        footer { padding: 4rem 2rem; text-align: center; border-top: 1px solid rgba(253, 211, 92, 0.06); background: var(--deep); }
+        .footer-links { display: flex; gap: 2rem; justify-content: center; margin-bottom: 2rem; flex-wrap: wrap; }
+        .footer-links a { color: var(--muted); text-decoration: none; font-family: 'Orbitron', sans-serif; font-size: 0.7rem; letter-spacing: 1px; transition: color 0.3s; }
+        .footer-links a:hover { color: var(--gold); }
+        .footer-quote { font-family: 'Cinzel', serif; font-size: 0.9rem; color: var(--muted); font-style: italic; margin-bottom: 1.5rem; }
+        .footer-copy { font-size: 0.7rem; color: rgba(226, 220, 208, 0.3); }
+        .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .particle { position: fixed; pointer-events: none; opacity: 0; animation: float-particle linear forwards; z-index: 0; }
+        @keyframes float-particle { 0% { opacity: 0; transform: translateY(0) scale(0.5); } 10% { opacity: 0.6; } 90% { opacity: 0.3; } 100% { opacity: 0; transform: translateY(-100vh) scale(1); } }
+        @media (max-width: 768px) { nav { padding: 1rem 1.5rem; } .nav-links { display: none; } section { padding: 5rem 1.5rem; } .pillars-grid, .eco-grid { grid-template-columns: 1fr; } .stats-row { gap: 2rem; } .hero-cta { flex-direction: column; align-items: center; } }
+    .hero-video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; opacity: 0.4; } .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(ellipse at center bottom, rgba(253,211,92,0.08) 0%, transparent 60%); z-index: 1; } .hero { position: relative; overflow: hidden; } .hero > *:not(.hero-video):not(.hero-overlay) { position: relative; z-index: 2; }
+.coin-image-container { text-align: center; margin-bottom: 1.5rem; } .coin-image { width: 180px; height: 180px; border-radius: 50%; object-fit: cover; border: 3px solid var(--gold); box-shadow: 0 0 30px rgba(253, 211, 92, 0.4), 0 0 60px rgba(253, 211, 92, 0.2); animation: coinGlow 3s ease-in-out infinite alternate; } @keyframes coinGlow { from { box-shadow: 0 0 30px rgba(253, 211, 92, 0.4), 0 0 60px rgba(253, 211, 92, 0.2); } to { box-shadow: 0 0 40px rgba(253, 211, 92, 0.6), 0 0 80px rgba(253, 211, 92, 0.3); } } </style>
 </head>
-
 <body>
-<div id=loader><div class=skull>&#x1F480;</div><p>SUMMONING THE REAPER...</p></div>
-<div id=scroll-progress></div>
-
-  <!-- Navigation Menu -->
-  <nav class="nav-menu">
-    <button class="nav-btn" onclick="document.getElementById('scene1').scrollIntoView({behavior:'smooth'})">✦ Story</button>
-    <button class="nav-btn" onclick="document.getElementById('scene4').scrollIntoView({behavior:'smooth'})">✦ Coin</button>
-    <button class="nav-btn" onclick="window.open('https://polygonscan.com/address/0xa9f6bF8DF6D05bFf95E4FA0f836CD03c1c25A6eF','_blank')">✦ Contract</button>
-  </nav>
-  <!-- Scene 1: Crossing the Veil -->
-  <section id="scene1" class="scene">
-    <div class="video-container">
-      <video autoplay muted playsinline>
-        <source src="intro.mp4" type="video/mp4" />
-      </video>
-    </div>
-    <div class="golden-sweep"></div>
-    <div class="awakening-text">The veil is thin for those who dare to see.</div>
-    <div class="lotus">🪷</div>
-  </section>
-
-  <!-- Hero Section: Mascot + Button -->
-  <section class="hero">
-    <div class="reaper-halo"></div>
-    <div class="mascot-container">
-      <img src="Mascot.png" alt="ReaperCoin Mascot" class="mascot" />
-    </div>
-    <div class="tagline" id="tagline"></div>
-    <button class="unveil-btn" onclick="unveilCoin()" id="unveilBtn" style="display:none;">Unveil the Coin</button>
-  </section>
-
-  <!-- Scene 3: Lore of the Red Veil -->
-  <section id="scene3" class="scene">
-    <div class="cosmic-beam"></div>
-    <div class="lore-text" id="loreText"></div>
-  </section>
-
-  <section class=video-showcase id=video-section>
-<h2>&#x2694;&#xFE0F; The Reapers Vision &#x2694;&#xFE0F;</h2>
-<video controls playsinline poster=background.png>
-<source src=love.mp4 type=video/mp4>
-</video>
-</section>
-<!-- Scene 4: The Living Coin -->
-  <section id="scene4" class="scene">
-    <div class="glass-panel">
-      <div class="hero">
-        <h1>ReaperCoin</h1>
-        <h2>"Everybody wants to go to heaven, but no one wants to die."</h2>
-      </div>
-
-      <div class="stats">
-        <div class="stat">
-          <h3>💰 Supply</h3>
-          <div id="totalSupply" class="neonValue">Loading...</div>
+    <div id="loader"><div class="loader-symbol">&#9876;</div></div>
+    <div id="scroll-progress"></div>
+    <nav>
+        <div class="nav-brand">Reaper Coin</div>
+        <ul class="nav-links">
+            <li><a href="#philosophy">Philosophy</a></li>
+            <li><a href="#pillars">Pillars</a></li>
+            <li><a href="#lore">Lore</a></li>
+            <li><a href="#ecosystem">Ecosystem</a></li>
+            <li><a href="#stats">On-Chain</a></li>
+        </ul>
+    </nav>
+    <section class="hero" id="hero"><video class="hero-video" autoplay muted loop playsinline><source src="intro.mp4" type="video/mp4"></video><div class="hero-overlay"></div>
+        <p class="hero-badge">Built Through Fire &bull; Fueled by Truth</p>
+        <div class="coin-image-container"><img src="token.png" alt="Reaper Coin" class="coin-image"></div><h1>Reaper Coin</h1>
+        <p class="hero-tagline">Every Scar Becomes Armor</p>
+        <p class="hero-sub">A living ecosystem for builders, survivors, creators, and visionaries &#8212; where transformation through hardship becomes generational power.</p>
+        <div class="hero-cta">
+            <a href="https://amoy.polygonscan.com/address/0xa9f6bF8DF6D05bFf95E4FA0f836CD03c1c25A6eF" target="_blank" class="btn btn-primary">View Contract</a>
+            <a href="#philosophy" class="btn btn-outline">Explore the Vision</a>
         </div>
-        <div class="stat">
-          <h3>💀 Holders</h3>
-          <div id="holders" class="neonValue">Loading...</div>
+    </section>
+    <section class="philosophy" id="philosophy">
+        <div class="reveal">
+            <p class="section-label">Philosophy</p>
+            <h2>Nothing Endured Is Wasted</h2>
+            <p>The Reaper is not death &#8212; it is the force that strips away illusion, collects wasted time, and pushes humanity through transformation. It stands at the threshold where old worlds end and new ones begin. Every hardship you survive becomes protection, wisdom, and strength for the next battle.</p>
         </div>
-        <div class="stat">
-          <h3>⚡ Network</h3>
-          <div class="neonValue">Polygon Amoy</div>
+    </section>
+    <section class="pillars" id="pillars">
+        <h2 class="reveal">The Pillars We Stand On</h2>
+        <div class="pillars-grid reveal">
+            <div class="pillar-card">
+                <div class="pillar-icon">&#128293;</div>
+                <h3>Resilience</h3>
+                <p>The refusal to stay down. Getting back up is not something we do &#8212; it is who we are.</p>
+            </div>
+            <div class="pillar-card">
+                <div class="pillar-icon">&#9889;</div>
+                <h3>Truth</h3>
+                <p>Radical honesty. No masks, no performance. We build on what is real.</p>
+            </div>
+            <div class="pillar-card">
+                <div class="pillar-icon">&#127793;</div>
+                <h3>Evolution</h3>
+                <p>Constant self-improvement. Becoming better than yesterday, every single day.</p>
+            </div>
+            <div class="pillar-card">
+                <div class="pillar-icon">&#127963;</div>
+                <h3>Legacy</h3>
+                <p>Building something that serves others long after we are gone. Generational impact.</p>
+            </div>
         </div>
-      </div>
-
-      <div class="contract">
-        <h3>📜 Contract Address</h3>
-        <p id="contractAddress">0xa9f6bF8DF6D05bFf95E4FA0f836CD03c1c25A6eF</p>
-        <button class="small-btn" onclick="copyAddress()">Copy Address</button>
-        <button class="small-btn" onclick="addToMetaMask()">Add to MetaMask</button>
-        <button class="buy-btn" title="Coming Soon">Buy RPR (Soon)</button>
-        
-        <div style="margin-top:20px;">
-          <p><strong>💰 Your Balance:</strong> <span id="walletBalance" class="neonValue">Loading...</span></p>
+    </section>
+    <section class="lore" id="lore">
+        <div class="reveal">
+            <p class="section-label">The Origin</p>
+            <h2>The World Forgot What Matters</h2>
+            <div class="lore-text">
+                
+                <br>
+                <p>Then <em>The Reaper</em> emerged &#8212; not as an ending, but as a witness. It saw what others refused to see. It collected the forgotten truths. It remembered the names no one spoke.</p>
+                <br>
+                <p>Reaper Coin became proof that <em>pain becomes power</em> &#8212; a currency of builders, a symbol of awakening, fuel for those who chose to build rather than break.</p>
+            </div>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer Realm -->
-  <section class="footer-realm">
-    <div class="eternal-wisdom">"Death is certain. Value is created."</div>
-  </section>
-<section class=gallery-section id=gallery>
-<h2>&#x1F338; The Reapers Collection &#x1F338;</h2>
-<div class=gallery-grid>
-<div class=gallery-item><img src=reaper.png alt=Reaper loading=lazy><div class=overlay><p>THE REAPER</p></div></div>
-<div class=gallery-item><img src=token.png alt=Token loading=lazy><div class=overlay><p>RPR TOKEN</p></div></div>
-<div class=gallery-item><img src=smallreaper.png alt=Spirit loading=lazy><div class=overlay><p>REAPER SPIRIT</p></div></div>
-<div class=gallery-item><img src=Mascot.png alt=Mascot loading=lazy><div class=overlay><p>THE MASCOT</p></div></div>
-<div class=gallery-item><img src=background.png alt=Void loading=lazy><div class=overlay><p>THE VOID</p></div></div>
-</div>
-</section>
-<section class=features-section id=features>
-<h2>Why ReaperCoin?</h2>
-<div class=features-grid>
-<div class=feature-card><span class=icon>&#x1F525;</span><h3>Deflationary Burns</h3><p>1% of every transaction is permanently burned. Supply shrinks over time making each RPR more scarce.</p></div>
-<div class=feature-card><span class=icon>&#x1F40B;</span><h3>Anti-Whale</h3><p>Max transaction limits prevent market manipulation. Fair tokenomics for all holders.</p></div>
-<div class=feature-card><span class=icon>&#x1F6E1;&#xFE0F;</span><h3>Anti-Bot Shield</h3><p>Built-in blacklist prevents sandwich attacks and sniper bots from exploiting traders.</p></div>
-<div class=feature-card><span class=icon>&#x26A1;</span><h3>Polygon Powered</h3><p>Lightning-fast transactions with minimal gas fees on Polygon network.</p></div>
-<div class=feature-card><span class=icon>&#x1F512;</span><h3>Verified Contract</h3><p>Smart contract verified on PolygonScan. Transparent immutable code.</p></div>
-<div class=feature-card><span class=icon>&#x1F480;</span><h3>Community First</h3><p>No team tokens. No VCs. No presale. Just the community and the Reaper.</p></div>
-</div>
-</section>
-<section class=footer-v3>
-<div class=links>
-<a href=#>Twitter</a><a href=#>Telegram</a><a href=#>Discord</a>
-<a href=https://amoy.polygonscan.com/address/0xa9f6bF8DF6D05bFf95E4FA0f836CD03c1c25A6eF target=_blank>PolygonScan</a>
-</div>
-<p style=margin-top:20px>&#xA9; 2026 ReaperCoin. The Reaper always collects. DYOR.</p>
-</section>
-
-
-
-
-  <script>
-    // Word-by-word tagline reveal
-    const taglineWords = ["Everybody", "wants", "to", "go", "to", "heaven,", "but", "no", "one", "wants", "to", "die."];
-    const taglineEl = document.getElementById('tagline');
-    
-    setTimeout(() => {
-      taglineWords.forEach((word, i) => {
-        const span = document.createElement('span');
-        span.className = 'word';
-        span.textContent = word;
-        span.style.animationDelay = `${i * 0.4}s`;
-        taglineEl.appendChild(span);
-      });
-    }, 3000);
-
-    // Lore typing animation
-    const loreLines = [
-      "From the ashes of mortal greed, a new currency was born.",
-      "Forged in the afterlife. Blessed by time.",
-      "The Reaper calls it — ReaperCoin."
-    ];
-    
-    const loreEl = document.getElementById('loreText');
-    
-    setTimeout(() => {
-      loreLines.forEach((line, i) => {
-        const div = document.createElement('div');
-        div.className = 'line';
-        div.innerHTML = line.replace('ReaperCoin', '<strong style="color:#ff4f6a">ReaperCoin</strong>');
-        div.style.animationDelay = `${i * 1.5}s`;
-        loreEl.appendChild(div);
-        
-        if (i === 0) div.innerHTML += '<br><br>';
-        if (i === 1) div.innerHTML += '<br><br>';
-      });
-      
-      // Show unveil button after lore completes
-      setTimeout(() => {
-        document.getElementById('unveilBtn').style.display = 'block';
-      }, 4500);
-    }, 1000);
-
-    // Unveil coin function
-    function unveilCoin() {
-      document.getElementById('scene4').scrollIntoView({ behavior: 'smooth' });
-      
-      // Release petals on button click
-      for (let i = 0; i < 6; i++) {
-        setTimeout(() => createGoldenPetal(), i * 200);
-      }
-    }
-
-    // Create golden petals
-    function createGoldenPetal() {
-      const petal = document.createElement('div');
-      petal.className = 'golden-petal';
-      petal.style.left = Math.random() * 100 + 'vw';
-      petal.style.setProperty('--drift', (Math.random() * 200 - 100) + 'px');
-      document.body.appendChild(petal);
-      setTimeout(() => petal.remove(), 15000);
-    }
-
-    // Start golden petals in scene 4
-    let petalInterval;
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > window.innerHeight * 3 && !petalInterval) {
-        petalInterval = setInterval(createGoldenPetal, 4000);
-      }
-    });
-
-    /************************************
-     * ReaperCoin — Live On-Chain Data
-     * Network: Polygon Amoy (80002)
-     * Contract: 0x958f0aC9a6a0F3c08e8f4b45b51fd7DAF8Fe1Ce4
-     ************************************/
-
-    const API_KEY = "QZCC7W4K68XF8B6U2YFRMB5G4QYH581JCD";
-    const CONTRACT = "0xa9f6bF8DF6D05bFf95E4FA0f836CD03c1c25A6eF";
-    const CHAIN = "polygon-amoy";
-
-    function animateValue(el, value) {
-      el.classList.remove("active");
-      el.textContent = value;
-      setTimeout(() => el.classList.add("active"), 80);
-    }
-
-    async function fetchSupply() {
-      const url = `https://api.etherscan.io/v2/api?chain=${CHAIN}&module=stats&action=tokensupply&contractaddress=${CONTRACT}&apikey=${API_KEY}`;
-      const res = await fetch(url);
-      const data = await res.json();
-
-      if (!data.result) return "-";
-
-      const supply = (parseInt(data.result) / 1e18).toLocaleString();
-      animateValue(document.getElementById("totalSupply"), supply + " RPR");
-    }
-
-    async function fetchHolders() {
-      const url = `https://api.etherscan.io/v2/api?chain=${CHAIN}&module=token&action=tokenholderlist&contractaddress=${CONTRACT}&page=1&offset=200&apikey=${API_KEY}`;
-      const res = await fetch(url);
-      const data = await res.json();
-
-      const count = data.result?.length || 0;
-      animateValue(
-        document.getElementById("holders"),
-        count + " Survivor" + (count === 1 ? "" : "s")
-      );
-    }
-
-    async function fetchWalletBalance() {
-      if (!window.ethereum) {
-        animateValue(document.getElementById("walletBalance"), "Install MetaMask");
-        return;
-      }
-
-      const accounts = await window.ethereum.request({
-        method: "eth_requestAccounts",
-      });
-
-      const wallet = accounts[0];
-
-      const url = `https://api.etherscan.io/v2/api?chain=${CHAIN}&module=account&action=tokenbalance&contractaddress=${CONTRACT}&address=${wallet}&tag=latest&apikey=${API_KEY}`;
-
-      const res = await fetch(url);
-      const data = await res.json();
-
-      if (!data.result) return;
-
-      const balance = (parseInt(data.result) / 1e18).toLocaleString();
-      animateValue(document.getElementById("walletBalance"), balance + " RPR");
-    }
-
-    async function loadReaperData() {
-      await fetchSupply();
-      await fetchHolders();
-      await fetchWalletBalance();
-    }
-
-    // Initial load
-    setTimeout(loadReaperData, 1000);
-
-    // Refresh every 30 seconds
-    setInterval(loadReaperData, 30000);
-
-    // Wallet functions
-    function copyAddress() {
-      navigator.clipboard.writeText(CONTRACT);
-      alert('💀 Contract address copied to clipboard!');
-    }
-
-    async function addToMetaMask() {
-      try {
-        await window.ethereum?.request({
-          method: 'wallet_watchAsset',
-          params: { type: 'ERC20', options: { address: CONTRACT, symbol: 'RPR', decimals: 18 } }
-        });
-      } catch (e) { console.error(e); }
-    }
-
-    // Reaper parallax effect
-    window.addEventListener('scroll', () => {
-      const reaper = document.querySelector('.reaper-image');
-      if (reaper) {
-        const scrolled = window.pageYOffset;
-        const rate = scrolled * -0.1;
-        reaper.style.transform = `translateY(${rate}px) rotate(${scrolled * 0.01}deg)`;
-      }
-    });
-  </script>
-<script>
-window.addEventListener("load",function(){setTimeout(function(){document.getElementById("loader").classList.add("hidden")},2200)});
-window.addEventListener("scroll",function(){var s=document.documentElement.scrollTop,t=document.documentElement.scrollHeight-document.documentElement.clientHeight;var p=document.getElementById("scroll-progress");if(p&&t>0)p.style.width=(s/t)*100+"%"});
-var obs=new IntersectionObserver(function(e){e.forEach(function(en){if(en.isIntersecting)en.target.classList.add("visible")})},{threshold:0.1});
-document.querySelectorAll(".v3-scene,.video-showcase,.gallery-section,.features-section").forEach(function(el){obs.observe(el)});
-function mkF(){var r=Math.random()>0.5,el=document.createElement("div");el.className=r?"floating-reaper":"floating-flower";el.innerHTML=r?"&#x2620;":"&#x2727;";el.style.left=Math.random()*100+"vw";el.style.animationDuration=(15+Math.random()*20)+"s";el.style.fontSize=(0.8+Math.random()*1.5)+"rem";document.body.appendChild(el);setTimeout(function(){el.remove()},35000)}
-setInterval(mkF,3500);for(var i=0;i<4;i++)setTimeout(mkF,i*800);
-</script>
+    </section>
+    <section class="ecosystem" id="ecosystem">
+        <h2 class="reveal">A Living Ecosystem</h2>
+        <p class="ecosystem-subtitle reveal">Connected systems where suffering transforms into something that heals, protects, and endures.</p>
+        <div class="eco-grid reveal">
+            <div class="eco-card">
+                <div class="eco-icon">&#129504;</div>
+                <h4>Lotus AI</h4>
+                <p>Compassionate intelligence &#8212; a companion, not a controller. Bridges technology and emotional truth.</p>
+            </div>
+            <div class="eco-card">
+                <div class="eco-icon">&#128142;</div>
+                <h4>Reaper Coin</h4>
+                <p>The economic fuel. Proof of participation. Value created by those who build, not extract.</p>
+            </div>
+            <div class="eco-card">
+                <div class="eco-icon">&#128330;</div>
+                <h4>Dear Loved One</h4>
+                <p>Memory preservation and legacy. Ensuring loved ones are never forgotten.</p>
+            </div>
+            <div class="eco-card">
+                <div class="eco-icon">&#10084;</div>
+                <h4>Kidney Care</h4>
+                <p>Health advocacy and support. The system should serve you, not the other way around.</p>
+            </div>
+        </div>
+    </section>
+    <section class="stats-section" id="stats">
+        <h2 class="reveal">On-Chain Data</h2>
+        <div class="stats-row reveal">
+            <div class="stat-item">
+                <h3>Supply</h3>
+                <div class="stat-value" id="totalSupply">Loading...</div>
+            </div>
+            <div class="stat-item">
+                <h3>Holders</h3>
+                <div class="stat-value" id="holders">Loading...</div>
+            </div>
+            <div class="stat-item">
+                <h3>Network</h3>
+                <div class="stat-value">Polygon Amoy</div>
+            </div>
+        </div>
+        <div class="contract-display reveal">
+            <label>Contract Address</label>
+            <code>0xa9f6bF8DF6D05bFf95E4FA0f836CD03c1c25A6eF</code>
+        </div>
+    </section>
+    <footer>
+        <div class="footer-links">
+            <a href="#">Twitter</a>
+            <a href="#">Telegram</a>
+            <a href="#">Discord</a>
+            <a href="https://amoy.polygonscan.com/address/0xa9f6bF8DF6D05bFf95E4FA0f836CD03c1c25A6eF" target="_blank">PolygonScan</a>
+        </div>
+        <p class="footer-quote">"We didn't come this far to only come this far. The Reaper walks so that others may build."</p>
+        <p class="footer-copy">&copy; 2026 ReaperCoin. The Reaper always collects. DYOR.</p>
+    </footer>
+    <script>
+        window.addEventListener('load', function() { setTimeout(function() { document.getElementById('loader').classList.add('hidden'); }, 1800); });
+        window.addEventListener('scroll', function() { var scrollTop = document.documentElement.scrollTop; var scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight; var progress = document.getElementById('scroll-progress'); if (scrollHeight > 0) { progress.style.width = (scrollTop / scrollHeight) * 100 + '%'; } });
+        var observer = new IntersectionObserver(function(entries) { entries.forEach(function(entry) { if (entry.isIntersecting) { entry.target.classList.add('visible'); } }); }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(function(el) { observer.observe(el); });
+        function createParticle() { var particle = document.createElement('div'); particle.classList.add('particle'); var isGold = Math.random() > 0.5; particle.style.left = Math.random() * 100 + 'vw'; particle.style.bottom = '-10px'; particle.style.width = (2 + Math.random() * 3) + 'px'; particle.style.height = particle.style.width; particle.style.borderRadius = '50%'; particle.style.background = isGold ? 'var(--gold)' : 'var(--ember)'; particle.style.animationDuration = (12 + Math.random() * 20) + 's'; document.body.appendChild(particle); setTimeout(function() { particle.remove(); }, 32000); }
+        setInterval(createParticle, 4000);
+        for (var i = 0; i < 3; i++) { setTimeout(createParticle, i * 1500); }
+        (async function() {
+            var API_KEY = "QZCC7W4K68XF8B6U2YFRMB5G4QYH581JCD";
+            var CONTRACT = "0xa9f6bF8DF6D05bFf95E4FA0f836CD03c1c25A6eF";
+            var CHAIN = "polygon-amoy";
+            try { var supplyUrl = "https://api.etherscan.io/v2/api?chain=" + CHAIN + "&module=stats&action=tokensupply&contractaddress=" + CONTRACT + "&apikey=" + API_KEY; var supplyRes = await fetch(supplyUrl); var supplyData = await supplyRes.json(); if (supplyData.result) { var supply = parseInt(supplyData.result) / 1e18; if (!isNaN(supply)) { document.getElementById('totalSupply').textContent = supply.toLocaleString() + ' RPR'; } else { document.getElementById('totalSupply').textContent = '\u2014'; } } } catch(e) { document.getElementById('totalSupply').textContent = '\u2014'; }
+            try { var holdersUrl = "https://api.etherscan.io/v2/api?chain=" + CHAIN + "&module=token&action=tokenholderlist&contractaddress=" + CONTRACT + "&page=1&offset=100&apikey=" + API_KEY; var holdersRes = await fetch(holdersUrl); var holdersData = await holdersRes.json(); if (holdersData.result && Array.isArray(holdersData.result)) { document.getElementById('holders').textContent = holdersData.result.length; } else { document.getElementById('holders').textContent = '\u2014'; } } catch(e) { document.getElementById('holders').textContent = '\u2014'; }
+        })();
+    </script>
 </body>
 </html>
+
