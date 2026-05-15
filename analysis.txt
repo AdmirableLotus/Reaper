@@ -69,7 +69,7 @@ void-glow
   <nav class="nav-menu">
     <button class="nav-btn" onclick="document.getElementById('scene1').scrollIntoView({behavior:'smooth'})">✦ Story</button>
     <button class="nav-btn" onclick="document.getElementById('scene4').scrollIntoView({behavior:'smooth'})">✦ Coin</button>
-    <button class="nav-btn" onclick="window.open('https://polygonscan.com/address/0xa9f6bF8DF6D05bFf95E4FA0f836CD03c1c25A6eF','_blank')">✦ Contract</button>
+    <button class="nav-btn" onclick="window.open('https://polygonscan.com/address/[ADDRESS_REMOVED]','_blank')">✦ Contract</button>
   </nav>
   <!-- Scene 1: Crossing the Veil -->
   <section id="scene1" class="scene">
@@ -124,7 +124,7 @@ void-glow
 
       <div class="contract">
         <h3>📜 Contract Address</h3>
-        <p id="contractAddress">0xa9f6bF8DF6D05bFf95E4FA0f836CD03c1c25A6eF</p>
+        <p id="contractAddress">[ADDRESS_REMOVED]</p>
         <button class="small-btn" onclick="copyAddress()">Copy Address</button>
         <button class="small-btn" onclick="addToMetaMask()">Add to MetaMask</button>
         <button class="buy-btn" title="Coming Soon">Buy RPR (Soon)</button>
