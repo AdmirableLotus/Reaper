@@ -107,7 +107,7 @@
         <div class="hero-video-overlay"></div>
         <div class="hero-content">
             <div class="coin-image-wrapper animate-in delay-1"><img src="token.png" alt="ReaperCoin" class="coin-img"></div>
-            <div class="hero-badge animate-in delay-2">Polygon Network &#8226; Live on Testnet</div>
+            <div class="hero-badge animate-in delay-2">Polygon Network &#8226; Live on Mainnet</div>
             <h1 class="animate-in delay-3">Reaper Coin</h1>
             <p class="hero-tagline animate-in delay-4">Every scar becomes armor. A deflationary token built through fire, fueled by truth, and forged for those who refuse to quit.</p>
             <div class="hero-cta animate-in delay-5">
@@ -118,10 +118,10 @@
     </section>
     <section id="stats">
         <div class="stats">
-            <div class="stat-card"><div class="stat-value">666.67M</div><div class="stat-label">Initial Supply</div></div>
+            <div class="stat-card"><div class="stat-value">88,888</div><div class="stat-label">Initial Supply</div></div>
             <div class="stat-card"><div class="stat-value">1%</div><div class="stat-label">Burn Per Transaction</div></div>
-            <div class="stat-card"><div class="stat-value">1B</div><div class="stat-label">Maximum Cap</div></div>
-            <div class="stat-card"><div class="stat-value">REAPER</div><div class="stat-label">Token Symbol</div></div>
+            <div class="stat-card"><div class="stat-value">88,888</div><div class="stat-label">Maximum Cap</div></div>
+            <div class="stat-card"><div class="stat-value">RPR</div><div class="stat-label">Token Symbol</div></div>
         </div>
     </section>
     <section class="video-section" id="video">
@@ -156,9 +156,9 @@
         <div class="divider"></div>
         <p class="section-desc" style="margin-bottom: 2rem;">Designed for long-term sustainability with built-in deflationary mechanics.</p>
         <div class="tokenomics-grid">
-            <div class="token-item"><div class="token-item-value">666,670,000</div><div class="token-item-label">Initial Supply</div></div>
-            <div class="token-item"><div class="token-item-value">1,000,000,000</div><div class="token-item-label">Max Cap</div></div>
-            <div class="token-item"><div class="token-item-value">1%</div><div class="token-item-label">Burn Rate</div></div>
+            <div class="token-item"><div class="token-item-value">88,888</div><div class="token-item-label">Initial Supply</div></div>
+            <div class="token-item"><div class="token-item-value">88,888</div><div class="token-item-label">Max Cap</div></div>
+                        <div class="token-item"><div class="token-item-value">1%</div><div class="token-item-label">Burn Rate</div></div>
             <div class="token-item"><div class="token-item-value">Polygon</div><div class="token-item-label">Network</div></div>
             <div class="token-item"><div class="token-item-value">ERC-20</div><div class="token-item-label">Standard</div></div>
             <div class="token-item"><div class="token-item-value">Solidity 0.8.28</div><div class="token-item-label">Compiler</div></div>
@@ -168,23 +168,22 @@
         <div class="section-label">Smart Contract</div>
         <h2 class="section-title">Verified & Deployed</h2>
         <div class="contract-section">
-            <p style="color: var(--text-secondary); margin-bottom: 0.5rem;">Contract Address (Polygon Amoy Testnet)</p>
-            <div class="contract-address" id="contractAddr">0xa9f6bF8DF6D05bFf95E4FA0f836CD03c1c25A6eF</div>
+            <p style="color: var(--text-secondary); margin-bottom: 0.5rem;">Contract Address (Polygon Mainnet)</p>
+            <div class="contract-address" id="contractAddr">[Contract Address Hidden]</div>
             <div class="contract-buttons">
-                <button class="btn btn-primary" onclick="copyAddress()">Copy Address</button>
                 <button class="btn btn-secondary" onclick="addToMetaMask()">Add to MetaMask</button>
-                <a href="https://www.oklink.com/amoy/address/0xa9f6bF8DF6D05bFf95E4FA0f836CD03c1c25A6eF" target="_blank" class="btn btn-secondary">View on Explorer</a>
+                <a href="https://www.polygonscan.com/token/0x412A21b9bAb9Af2f0D177699dDF9e1112134FBa5" target="_blank" class="btn btn-secondary">View on Explorer</a>
             </div>
         </div>
     </section>
     <footer>
         <p>&copy; 2026 ReaperCoin. Built through fire. Fueled by truth.</p>
-        <p style="margin-top: 0.5rem; color: var(--text-muted); font-size: 0.75rem;">Currently deployed on Polygon Amoy Testnet. Mainnet deployment coming soon.</p>
+        <p style="margin-top: 0.5rem; color: var(--text-muted); font-size: 0.75rem;">Deployed on Polygon Mainnet.</p>
     </footer>
     <script>
         function copyAddress() { navigator.clipboard.writeText
 (document.getElementById('contractAddr').textContent).then(() => alert('Contract address copied!')); }
-        async function addToMetaMask() { if (typeof window.ethereum !== 'undefined') { try { await window.ethereum.request({ method: 'wallet_watchAsset', params: { type: 'ERC20', options: { address: '0xa9f6bF8DF6D05bFf95E4FA0f836CD03c1c25A6eF', symbol: 'REAPER', decimals: 18, image: 'https://admirablelotus.github.io/Reaper/token.png' } } }); } catch (e) { console.error(e); } } else { alert('MetaMask not detected.'); } }
+        async function addToMetaMask() { if (typeof window.ethereum !== 'undefined') { try { await window.ethereum.request({ method: 'wallet_watchAsset', params: { type: 'ERC20', options: { address: '0x412A21b9bAb9Af2f0D177699dDF9e1112134FBa5', symbol: 'RPR', decimals: 18, image: 'https://admirablelotus.github.io/Reaper/token.png' } } }); } catch (e) { console.error(e); } } else { alert('MetaMask not detected.'); } }
         function createParticles() { const c = document.getElementById('particles'); for (let i = 0; i < 30; i++) { const p = document.createElement('div'); p.classList.add('particle'); p.style.left = Math.random()*100+'%'; p.style.animationDelay = Math.random()*15+'s'; p.style.animationDuration = (10+Math.random()*20)+'s'; c.appendChild(p); } }
         const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) { entry.target.style.opacity = '1'; entry.target.style.transform = 'translateY(0)'; } }); }, { threshold: 0.1 });
         document.querySelectorAll('.stat-card, .feature-card, .token-item').forEach(el => { el.style.opacity = '0'; el.style.transform = 'translateY(20px)'; el.style.transition = 'all 0.6s ease'; observer.observe(el); });
